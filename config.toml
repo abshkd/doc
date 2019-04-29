@@ -1,10 +1,7 @@
 baseURL = ""
-title = "Docsy Example"
+title = "Scalyr Documentation"
 
 enableRobotsTXT = true
-
-# Hugo allows theme composition (and inheritance). The precedence is from left to right.
-theme = ["docsy"]
 
 # Will give values to .Lastmod etc.
 enableGitInfo = true
@@ -56,26 +53,36 @@ id = "UA-00000000-0"
 
 [languages]
 [languages.en]
-title = "Docsy"
-description = "Docsy does docs"
+title = "Scalyr Socumentation"
+description = "Scalyr log management documentation"
 languageName ="English"
 # Weight used for sorting.
 weight = 1
-[languages.no]
-title = "Docsy"
-description = "Docsy er operativsystem for skyen"
-languageName ="Norsk"
-contentDir = "content/no"
-time_format_default = "02.01.2006"
-time_format_blog = "02.01.2006"
+time_format_default = "2/1/2006"
 
+[menu]
+[[menu.main]]
+name = "Community"
+url = "/community"
+[[menu.main]]
+name = "Blog"
+url = "/blog"
+[[menu.main]]
+name = "Contact Us"
+url = "/contact"
+[[menu.main]]
+name = "Support"
+url = "/support"
+[[menu.main]]
+name = "Careers"
+url = "/careers"
 
 # Everything below this are Site Params
 
 [params]
-copyright = "Global Inc"
-privacy_policy = "https://policies.google.com/privacy"
-github_repo = "https://github.com/google/docsy-example"
+copyright = "Scalyr, Inc"
+privacy_policy = "https://www.scalyr.com/privacy"
+github_repo = "https://github.com/scalyr/doc"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
 gcs_engine_id = "011737558837375720776:fsdu1nryfng"
@@ -92,43 +99,7 @@ breadcrumb_disable = false
 # If you want this feature, but occasionally need to remove the "Feedback" section from a single page,
 # add "hide_feedback: true" to the page's front matter.
 [params.ui.feedback]
-enable = true
-# The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
-yes = 'Glad to hear it! Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.'
-no = 'Sorry to hear that. Please <a href="https://github.com/USERNAME/REPOSITORY/issues/new">tell us how we can improve</a>.'
+enable = false
 
-[params.links]
-# End user relevant links. These will show up on left side of footer and in the community page if you have one.
-[[params.links.user]]
-	name = "User mailing list"
-	url = "https://example.org/mail"
-	icon = "fa fa-envelope"
-        desc = "Discussion and help from your fellow users"
-[[params.links.user]]
-	name ="Twitter"
-	url = "https://example.org/twitter"
-	icon = "fab fa-twitter"
-        desc = "Follow us on Twitter to get the latest news!"
-[[params.links.user]]
-	name = "Stack Overflow"
-	url = "https://example.org/stack"
-	icon = "fab fa-stack-overflow"
-        desc = "Practical questions and curated answers"
-# Developer relevant links. These will show up on right side of footer and in the community page if you have one.
-[[params.links.developer]]
-	name = "GitHub"
-	url = "https://github.com/google/docsy"
-	icon = "fab fa-github"
-        desc = "Development takes place here!"
-[[params.links.developer]]
-	name = "Slack"
-	url = "https://example.org/slack"
-	icon = "fab fa-slack"
-        desc = "Chat with other project developers"
-[[params.links.developer]]
-	name = "Developer mailing list"
-	url = "https://example.org/mail"
-	icon = "fa fa-envelope"
-        desc = "Discuss development issues around the project"
 
 

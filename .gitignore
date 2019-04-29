@@ -1,6 +1,8 @@
-
+.DS_Store
+.idea
+doc.iml
 public/
 resources/
 node_modules/
 tech-doc-hugo
-
+assets/vendor/

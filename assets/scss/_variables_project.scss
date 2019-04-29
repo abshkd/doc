@@ -1,6 +1,60 @@
 /*
 
-Add styles or override variables from the theme here.
+Overriding Algolia's autocomplete dropdown css
 
 */
 
+.algolia-autocomplete {
+  width: 100%
+}
+
+.algolia-docsearch-suggestion--category-header {
+  background: #3C425B;
+  text-transform: uppercase;
+  font-weight: 400 !important;
+  color: #ddd;
+}
+
+.aa-cursor .algolia-docsearch-suggestion {
+  background: #F1F3F5 !important;
+}
+
+.aa-cursor .algolia-docsearch-suggestion--content {
+  color: #338D84 !important;
+}
+
+.algolia-docsearch-suggestion--highlight {
+  color: #338D84 !important;
+  font-weight: 600 !important;
+}
+
+.algolia-docsearch-suggestion--title {
+  font-weight: 400 !important;
+}
+
+.algolia-docsearch-suggestion--subcategory-column {
+  background: #f9fafb !important;
+}
+
+.algolia-docsearch-suggestion--category-header .algolia-docsearch-suggestion--highlight {
+  background: #efefef !important;
+}
+
+.algolia-docsearch-footer {
+  display: none !important;
+}
+
+.aa-dropdown-menu {
+  border-color: #ccc !important;
+  border-radius: 0 !important;
+  margin-top: 2px !important;
+  padding: 0 !important;
+  box-shadow: 0 6px 12px rgba(0,0,0,.35);
+}
+
+.aa-dropdown-menu * {
+  border-color: #ccc !important;
+}
+  .algolia-docsearch-suggestion__secondary {
+    border-top: 0 !important;
+  }
