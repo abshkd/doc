@@ -61,7 +61,7 @@ Hugo watches for changes, so edits should automatically appear.
 1. Push the changes:<br>
 `git push -f ${your_remote_name} my_branch_name`
 
-1. Request the review by visiting your fork from [https://github.com/scalyr/doc](https://github.com/scalyr/doc)
+1. Request the review from your fork of [https://github.com/scalyr/doc](https://github.com/scalyr/doc)
 
 If any of this is new to you, the good folks over at Kubernetes have created a nice writeup on this type of
 [Github workflow](https://github.com/kubernetes/community/blob/master/contributors/guide/github-workflow.md).

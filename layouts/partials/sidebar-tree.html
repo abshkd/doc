@@ -1,3 +1,12 @@
+<style>
+  nav > ul:first-child > li{
+      display: none;
+  }
+  .break {
+    margin-top: 20px !important;
+  }
+</style>
+
 {{/* We cache this partial for bigger sites and set the active class client side. */}}
 {{ $shouldDelayActive := ge (len .Site.Pages) 2000 }}
 <div id="td-sidebar-menu" class="td-sidebar__inner{{ if $shouldDelayActive }} d-none{{ end }}">
@@ -6,7 +15,7 @@
     <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  <nav class="collapse td-sidebar-nav pt-2 pl-4" id="td-section-nav">
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
     {{ if  (gt (len .Site.Home.Translations) 0) }}
     <div class="nav-item dropdown d-block d-lg-none">
       {{ partial "navbar-lang-selector.html" . }}
@@ -15,16 +24,18 @@
     {{ template "section-tree-nav-section" (dict "page" . "section" .FirstSection "delayActive" $shouldDelayActive)  }}
   </nav>
 </div>
+
 {{ define "section-tree-nav-section" }}
 {{ $s := .section }}
 {{ $p := .page }}
 {{ $shouldDelayActive := .delayActive }}
 {{ $active := eq $p.CurrentSection $s }}
+{{ $break := eq .section.Params.break true }}
 {{ $show := or (and (not $p.Site.Params.ui.sidebar_menu_compact) ($p.IsAncestor $s)) ($p.IsDescendant $s) }}
 {{ $sid := $s.RelPermalink | anchorize }}
-<ul class="td-sidebar-nav__section pr-md-3">
-  <li class="td-sidebar-nav__section-title">
-    <a  href="{{ $s.RelPermalink }}" class="align-left pl-0 pr-2{{ if not $show }} collapsed{{ end }}{{ if $active}} active{{ end }} td-sidebar-link td-sidebar-link__section">{{ $s.LinkTitle }}</a>
+<ul class="td-sidebar-nav__section pr-md-3 {{ if $active }}mb-2{{ end }}">{{ .Path }}
+  <li class="{{ if $break}}break{{ end }} td-sidebar-nav__section-title">
+    <a href="{{ $s.RelPermalink }}" class="align-left pl-0 pr-2{{ if not $show }} collapsed{{ end }}{{ if $active}} active{{ end }} td-sidebar-link td-sidebar-link__section">{{ $s.LinkTitle }}</a>
   </li>
   <ul>
     <li class="collapse {{ if $show }}show{{ end }}" id="{{ $sid }}">
@@ -34,15 +45,7 @@
       {{ if .IsPage }}
       {{ $mid := printf "m-%s" (.RelPermalink | anchorize) }}
       {{ $active := eq . $p }}
-      <a class="td-sidebar-link td-sidebar-link__page {{ if and (not $shouldDelayActive) $active }} active{{ end }}" id="{{ $mid }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
-      {{ if $active  }}
-      {{ with .TableOfContents }}
-      {{ if ge (len .) 200 }}
-      {{ . }}
-      {{ end }}
-      {{ end }}
-      {{ end }}
-
+        <a class="td-sidebar-link td-sidebar-link__page {{ if and (not $shouldDelayActive) $active }} active{{ end }}" id="{{ $mid }}" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
       {{ else }}
       {{ template "section-tree-nav-section" (dict "page" $p "section" .) }}
       {{ end }}
@@ -50,19 +53,5 @@
     </li>
   </ul>
 </ul>
-
-{{ if .Path }}
-{{ $gh_repo := ($.Param "github_repo") }}
-{{ if $gh_repo }}
-<div class="td-page-meta ml-2 pb-1 pt-2 mb-3">
-  {{ $editURL := printf "%s/edit/master/content/%s/%s" $gh_repo ($.Site.Language.Lang) .Path }}
-  {{ $issuesURL := printf "%s/issues/new?title=%s" $gh_repo (htmlEscape $.Title )}}
-  <a href="{{ $editURL }}" target="_blank"><i class="fa fa-edit fa-fw"></i> {{ T "post_edit_this" }}</a>
-  <a href="{{ $issuesURL }}" target="_blank"><i class="fab fa-github fa-fw"></i> {{ T "post_create_issue" }}</a>
-</div>
-{{ end }}
-{{ end }}
-
-
 
 {{ end }}

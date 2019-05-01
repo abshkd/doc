@@ -31,7 +31,8 @@
 
                     ul {
                         li {
-                            margin: .25rem 0 .375rem .5rem;
+                            margin: .25rem 0 .375rem .75rem;
+
                             ul {
 
                                 li {
@@ -84,7 +85,7 @@
 
         @include media-breakpoint-up(md) {
             & > ul {
-                padding-left: .5rem;
+                padding-left: 1rem;
             }
         }
 
@@ -96,13 +97,19 @@
         display: block;
         font-weight: $font-weight-medium;
 
+
         .active {
             font-weight: $font-weight-bold;
         }
 
         a {
-            color: $gray-900;
+           color: $gray-900;
+            text-transform: uppercase;
         }
+    }
+
+    .td-sidebar-nav__section-title {
+        text-transform: none;
     }
 
     .td-sidebar-link {
@@ -111,7 +118,11 @@
 
         &__page {
             color: $gray-700;
-            font-weight: $font-weight-light;
+            font-weight: 400;
+       }
+        &__page::before {
+            content: ">  ";
+            font-weight: 300;
         }
     }
 
