@@ -1,15 +1,17 @@
 ---
-title: "Windows"
+title: "Windows Installation"
 weight: 60
+notoc: true
+warning: "__Note:__ These instructions are for installing the Scalyr Agent directly on Windows.
+<br><br>
+To run the agent on Linux or a container service, see the specific guides to the left.
+"
+beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr/scalyr-agent-2) that uploads logs and system metrics to Scalyr."
 ---
 
-install: <Install Scalyr Agent>
-# Install Scalyr Agent on Windows
 
-The Scalyr Agent is a daemon to install on each of your servers. It uploads logs and system metrics
-to the Scalyr servers. This page provides streamlined instructions to get you up and running quickly
-on Windows systems.  For installing on Linux, please see 
-[the Linux agent installation instructions](/help/install-agent-linux).
+## Installation Steps
+
 
 1.  Download the [[[agentDownloadLink("win32", "Windows Installer")]]]
 and run it.  It will ask for Administrator privileges to install itself.
@@ -52,7 +54,11 @@ The agent will notice any configuration file changes within 30 seconds without t
 This will open a console window with the message ``"The agent has started"`` if the agent has been
 successfully started.  You may close the console window at any time; it does not stop the agent.
 
-installDone:
+## Changing reported hostname
+
+By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
+like "ip-12-23-34-45", you can [specify a different name](/help/scalyr-agent#hostname).
+
 ## That's It!
 
 Hopefully, that was easy. If you've had any trouble, please [let us know](mailto:support@scalyr.com).
@@ -66,10 +72,3 @@ For complete documentation, see the [agent reference](/help/scalyr-agent). Here 
 how to download the agent directly (instead of using our package repository), get tips for
 installing via a tool like Chef or Puppet, find troubleshooting tips, and more.
 
-additionalOptions: <Additional Options>
-## Additional options
-
-### Changing reported hostname
-
-By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
-like "ip-12-23-34-45", you can [specify a different name](/help/scalyr-agent#hostname).

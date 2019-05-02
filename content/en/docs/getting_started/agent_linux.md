@@ -1,21 +1,15 @@
 ---
-title: "Linux"
+title: "Linux Installation"
+warning: "__Note:__ These instructions are for installing the Scalyr Agent directly on Linux.
+<br><br>
+To run the agent on Windows or a container service, see the specific guides to the left.
+"
+beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr/scalyr-agent-2) that uploads logs and system metrics to Scalyr."
 weight: 50
 ---
 
-install: <Install Scalyr Agent>
-# Install Scalyr Agent (Linux)
+## Installing the Scalyr Agent Package
 
-@class=bg-warning docInfoPanel: This page contains instructions for installing the Scalyr Agent on Linux. For Windows,
-see the [Windows installation page](/help/install-agent-windows).
-For Docker, see the [Docker installation page](/help/install-agent-docker).
-For AWS EC2 Container Service (ECS), see the [ECS installation page](/help/install-agent-ecs).
-
-The Scalyr Agent is a daemon to install on each of your servers. It uploads logs and system metrics
-to the Scalyr servers. This page provides streamlined instructions to get you up and running quickly.
-For other options, skip down to the [Further Reading](#furtherReading) section.
-
-singleCommandInstall:
 1. Install the scalyr-agent-2 package:
 
     [[[agent2Install]]]
@@ -43,25 +37,7 @@ only letters, digits, spaces, underscores, and hyphens).
 
 After you edit the configuration file, the agent will begin copying the specified logs within 30 seconds.
 
-## That's It!
-
-Hopefully, that was easy. If you've had any trouble, please [let us know](mailto:support@scalyr.com).
-Otherwise, if this is your first time using Scalyr, this would be an excellent time to head on to the
-[Getting Started guide](/help/getting-started).
-
-If you're using any log formats other than ``accessLog``, you should first pop over to the
-[Log Parsing](/help/parsing-logs) page to set up a parser.
-
-For complete documentation, see the [agent reference](/help/scalyr-agent). Here you can learn
-how to download the agent directly (instead of using our package repository), get tips for
-installing via a tool like Chef or Puppet, find troubleshooting tips, and more.
-
-
-furtherReading: <Further Reading>
-## Further Reading
-
-runNonRoot:
-### Running under a non-root account
+## Running under a non-root account
 If you'd prefer not to run the agent as root, you can specify any user that has read access to your
 logs. Execute this command, substituting the appropriate user name:
 
@@ -71,12 +47,12 @@ You will need to restart the agent to have the change take effect.
 
     sudo scalyr-agent-2 restart
 
-### Changing reported hostname
+## Changing reported hostname
 
 By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
 like "ip-12-23-34-45", you can [specify a different name](/help/scalyr-agent#hostname).
 
-### Installing without the script
+## Installing without the script
 
 If you are installing the Scalyr Agent automatically using a tool like Chef or Puppet, you may wish to bypass our one-step
 installation script and invoke ``yum`` or ``apt-get`` directly.
@@ -120,7 +96,7 @@ Then follow the regular setup instructions to configure log uploading and other 
 
 
 tarball: <Tarball>
-### Tarball Installation
+## Tarball Installation
 
 If you'd prefer not to use a package manager, you can download and install the agent via a simple tarball:
 

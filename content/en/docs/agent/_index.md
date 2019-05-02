@@ -1,20 +1,16 @@
 ---
 title: "Scalyr Agent"
 weight: 60
+beforetoc: "The Scalyr Agent is a daemon you can install on each of your servers to upload logs and system metrics to Scalyr. It requires Python 2.4+, which is present on most servers. In our internal installations, the agent generally uses less than 15 MB RAM and 2% of CPU."
 ---
+ 
+{{% capture overview %}}
 
-The Scalyr Agent is a daemon which you can install on each of your servers. It uploads logs and
-system metrics to Scalyr. This is our second-generation agent, designed to be easy to install and
-manage, with minimal dependencies and resource requirements.
+{{% /capture %}}
 
-The agent can run on versions of Python back to 2.4, which is present on most servers. Resource requirements
-vary by workload; in our internal installations, the agent generally uses less than 15 MB RAM and 2% of CPU.
-
-
-installation: <Installation>
 ## Installation 
 
-For standard installation instructions, go to the [Agent Installation](/help/install-agent-linux) 
+For standard installation instructions, go to the [Agent Installation](/docs/getting_started/agent_linux) 
 page.
  
 

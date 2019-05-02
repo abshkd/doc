@@ -1,60 +1,53 @@
 ---
-title: "Docker"
+title: "Docker Installation"
 weight: 30
+warning: "__Note:__ These instructions are for installing the Scalyr Agent in a Docker container.
+<br><br>
+To run the agent directly on Linux, Windows, or another container service, see the specific guides to the left.
+"
+beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr/scalyr-agent-2) that uploads logs and system metrics to Scalyr.
+<br><br>For Docker, we find it works best if you run the agent in its own container on each host to collect logs and metrics from all other containers 
+on the same host. "
 ---
 
-install: <Install Scalyr Agent (Docker)>
-# Install Scalyr Agent (Docker)
 
-@class=bg-warning docInfoPanel: These instructions are for installing the Scalyr Agent in a Docker container.
-If you plan to run the Agent directly on Linux, see the [Linux installation page](/help/install-agent-linux). 
-For Windows, see the [Windows installation page](/help/install-agent-windows).
 
-The Scalyr Agent is a daemon that uploads logs and system metrics to the Scalyr servers. This page provides streamlined
-instructions to get you up and running quickly in a Docker environment.
-
-In our recommended architecture, you will run the Scalyr Agent in its own Docker container on each host
+We find it works best if you run the Scalyr Agent in its own Docker container on each host
 running Docker in your system.  This Scalyr Agent container will collect logs and metrics from all other containers
 running on the same host.  
 
 
-#Install
+We support two logging drivers: `syslog` and `json-file`. 
 
-In our recommended architecture, you will run the Scalyr Agent in its own Docker container on each host
-running Docker in your system.  This Scalyr Agent container will collect logs and metrics from all other containers
-running on the same host.  
+## Using the json-file Driver
 
-We support two logging drivers `syslog` and `json-file`. This document describes both methods for importing Docker logs to Scalyr. 
-
-###Docker API
-Our recommended configuration is to use the default Docker logging driver. Listed below are instructions to install the Scalyr Agent using the [Docker File Logging Driver](https://docs.docker.com/config/containers/logging/json-file/).
+To start the Scalyr Agent container with the json-file driver:
 
 1.  Download the official Scalyr Agent Docker image from Docker Hub
 
-    docker pull scalyr/scalyr-agent-docker-json
+    ```docker pull scalyr/scalyr-agent-docker-json```
 
-The default ``:latest`` tag will always point to the latest released agent version.
+    The default ``:latest`` tag will always point to the latest released agent version.
 
-2.  Create a configuration file snippet to hold your api key[[[andScalyrServerIfNecessary]]].  In this example, we will create ``/tmp/api_key.json``:
+2.  Create a configuration file snippet to hold your api key.  In this example, we will create ``/tmp/api_key.json``:
 
     [[[apiTokenAndServerJsonInstructions]]]
 
 3.  Launch the scalyr-agent container.  Be sure to substitute ``/var/run/docker.sock`` with the path to your Docker socket and ``/var/lib/docker/containers`` with the path to the Docker containers directory. 
 
-    docker run -d --name scalyr-docker-agent -v /tmp/api_key.json:/etc/scalyr-agent-2/agent.d/api_key.json -v /var/run/docker.sock:/var/scalyr/docker.sock -v /var/lib/docker/containers:/var/lib/docker/containers scalyr/scalyr-agent-docker-json
+    ```docker run -d --name scalyr-docker-agent -v /tmp/api_key.json:/etc/scalyr-agent-2/agent.d/api_key.json -v /var/run/docker.sock:/var/scalyr/docker.sock -v /var/lib/docker/containers:/var/lib/docker/containers scalyr/scalyr-agent-docker-json```
 
 4.  Start your other containers. Below is a simple "Hello, World" example.
 
-    docker run -d ubuntu /bin/sh -c 'while true; do echo Hello, World!; sleep 1; done'
+    ```docker run -d ubuntu /bin/sh -c 'while true; do echo Hello, World!; sleep 1; done'```
 
-###Syslog
-Listed below are instructions to install the Scalyr Agent using the [Syslog Logging Driver](https://docs.docker.com/config/containers/logging/syslog/).
+## Using the syslog Driver
 
-To start the Scalyr Agent container, please do the following:
+To start the Scalyr Agent container with the syslog driver:
 
 1.  Download the Scalyr Agent docker syslog image from Docker Hub
 
-    docker pull scalyr/scalyr-agent-docker-syslog
+    ```docker pull scalyr/scalyr-agent-docker-syslog```
 
 2.  Create a configuration file snippet to hold your api key[[[andScalyrServerIfNecessary]]].  In this example, we will create ``/tmp/api_key.json``:
 
@@ -62,7 +55,7 @@ To start the Scalyr Agent container, please do the following:
 
 3.  Launch the scalyr-agent container.  Be sure to substitute ``/var/run/docker.sock`` with the path to your Docker socket.
 
-    docker run -d --name scalyr-docker-agent -v /tmp/api_key.json:/etc/scalyr-agent-2/agent.d/api_key.json -v /var/run/docker.sock:/var/scalyr/docker.sock -p 601:601 scalyr/scalyr-agent-docker-syslog
+    ```docker run -d --name scalyr-docker-agent -v /tmp/api_key.json:/etc/scalyr-agent-2/agent.d/api_key.json -v /var/run/docker.sock:/var/scalyr/docker.sock -p 601:601 scalyr/scalyr-agent-docker-syslog```
 
 4.  Configure other containers to send their logs to Scalyr via the Scalyr Agent container.  When you start a container, you must supply these additional options to direct their logs to the Scalyr Agent container: ``--log-driver=syslog --log-opt syslog-address=tcp://127.0.0.1:601``.
 
@@ -70,36 +63,34 @@ For example, to start a container running a "Hello World" example, you would exe
 
     docker run  --log-driver=syslog --log-opt syslog-address=tcp://127.0.0.1:601 -d ubuntu /bin/sh -c 'while true; do echo Hello, World!; sleep 1; done'
 
-**Troubleshooting tips**
+## Setting Parsers, Sampling and Redaction Rules
 
-You may need to determine the path for the Docker API socket and the containers directory on your machine. These instructions assume that the socket is located at ``/var/run/docker.sock`` and the containers directory is at ``/var/lib/docker/containers``.
+By default, all logs sent to the Scalyr Agent container are configured to use the ``dockerSyslog`` parser.  You may
+override this by providing additional configuration.
 
-Typically, the socket is located at either ``/run/docker.sock`` or ``/var/run/docker.sock`` and the containers directory is at ``/var/lib/docker/containers`` For the Docker socket, be sure that you find the path to the true socket and not just a symlink to it.  Use ``ls -l`` to verify.  If both ``/run/docker.sock`` and ``/var/run/docker.sock`` are not symlinks, use ``/var/run/docker.sock``.  If neither file exists, try executing ``netstat --unix -l | grep docker.sock`` to locate the socket. Make sure your user has permission to access ``docker.sock``.
+To do so, you must create a log configuration stanza that matches the particular log file whose parser you wish to set.
+For example, follow the [instructions above to export the Scalyr Agent's configuration](#modify-config) and then create the following ``agent.d/container_logs.json`` file:
+
+    {
+      "logs":[ { 
+            "path": "/var/log/scalyr-agent-2/containers/*Frontend.log", 
+            "attributes": {"parser": "frontendLog"} 
+          }, { 
+            "path": "/var/log/scalyr-agent-2/containers/*Backend.log", 
+            "attributes": {"parser": "backendLog"}
+          } ]
+    }
+
+After you finish your modifications, be sure to import them back to the running Scalyr Agent using the above instructions.
+
+This would set ``frontendLog`` to be the parser for all logs uploaded by containers whose names end in ``Frontend``. It would set ``backendLog`` to be the parser for all logs with containers ending in ``Backend``.  As long as
+your container name defines the type of logs it generates, you will be able to set appropriate parsers.
+
+You can use this technique to also specify sampling and redaction rules.  See the [documentation on sampling and
+redaction rules](/help/scalyr-agent#filter) for more information.
 
 
-**Conclusion**
-If you've had any trouble, please [let us know](mailto:support@scalyr.com).
-Otherwise, if this is your first time using Scalyr, this would be an excellent time to head on to the
-[Getting Started guide](/help/getting-started).
-
-You should also check out the [Log Parsing](/help/parsing-logs) page to set up a 
-parser for your logs. Scalyr becomes an even more powerful tool for analysis and visualization when your logs are 
-properly parsed.
-
-For complete documentation on agent configuration options, see the [agent reference](/help/scalyr-agent).
-
-For more details on [creating custom images with your configuration files](#custom-images), [modifying the configuration
-files in the agent](#modify-config), [setting a server host name](#setting-serverHost), [assigning parsers](#setting-parsers), 
-etc, read on...
-
-
-furtherReading: <Further Reading>
-## Further Reading
-
-setting-parsers: <Setting parsers, sampling and redaction rules>
-### Setting parsers, sampling and redaction rules on containers  
-
-You can use Docker labels to easily control how Scalyr will import logs from your containers.  For example, you can 
+You can also use Docker labels to  control how Scalyr will import logs from your containers.  For example, you can 
 set the parser Scalyr should use to parse that container's log or set the sampling rate for what percentage
 of logs lines from the container should be sent to Scalyr.
 
@@ -134,7 +125,7 @@ replace it with a hyphen, and the Scalyr agent will map this to the appropriate 
 See the [documentation on sampling and redaction rules](/help/scalyr-agent#filter) for more information on these
 options work and see the next section for how their options map to label names.
 
-#### Mapping Configuration Options
+## Mapping Configuration Options
 
 The rules for mapping container labels to configuration are as follows:
 
@@ -172,7 +163,7 @@ as the array key. If a sub-key has an identical array key as a previously seen s
 of the sub-key is overwritten.  There is no guarantee about the order of processing for items with the same
 numeric array key.
 
-### Importing Docker labels
+## Importing Docker Labels
 
 You can optionally configure the Scalyr Agent to automatically add any Docker labels you have set on your container
 to the log lines from that container.  For example, suppose you add a Docker label called ``tier=prod`` to all
@@ -189,7 +180,7 @@ lines.  The full options related to this feature are:
 - **label_prefix** - A string to add to the beginning of any label key before uploading it as a log attribute.  e.g. if the value for `label_prefix` is `docker_` then the container labels `app` and `tier` will be uploaded to Scalyr with attribute keys `docker_app` and `docker_tier`.  Defaults to ''
 
 You can change these config options by editing the ``agent.d/docker.json`` file. Please 
-[follow the instructions here](/help/install-agent-docker#modify-config) to export the configuration of your 
+[follow the instructions here](/docs/getting_started/agent_docker#modify-config) to export the configuration of your 
 running Scalyr Agent.
 
 A sample configuration that uploaded the attributes ``tier``, ``app`` and ``region``, with the prefix ``dl_`` would look like this:
@@ -207,8 +198,7 @@ A sample configuration that uploaded the attributes ``tier``, ``app`` and ``regi
 **Warning**: These attributes contribute towards your total log volume, so it is wise to limit the labels to a small set of
 approved values, to avoid paying for attributes that you don't need.
 
-custom-images: <Creating custom Scalyr Agent Docker images>
-### Creating custom Scalyr Agent Docker images
+## Creating Custom Docker Images
 
 As you will see below, you can turn on several useful features in the Scalyr Agent by modifying its configuration
 files.  Modifying these files on one container is relatively simple in Docker, but can become burdensome when
@@ -232,8 +222,7 @@ You can launch a new Scalyr Agent container using this image by executing:
     docker run -d --name scalyr-docker-agent -v /var/run/docker.sock:/var/scalyr/docker.sock -p 601:601 customized-scalyr-docker-agent
 
 
-modify-config: <Modifying configuration files>
-### Modifying configuration files
+## Modifying Configuration Files
 
 We have also created a tool to help you modify multiple configuration files on a running Scalyr Agent container at one
 time.  It handles reading the configuration files from the container and then writing them back.
@@ -256,8 +245,7 @@ execute this command:
 There is no need to restart the Scalyr Agent after writing the configuration files.  The running Scalyr Agent should
 notice the new configuration files and read them within 30 seconds.
 
-setting-serverHost: <Setting a server host name>
-### Setting a server host name
+## Setting a Server Host Name
 
 By default, the Scalyr Agent's container id is used as the server host name for all logs it uploads.  This is not ideal
 since this id can change over time, such as when you upgrade to a new version of the Scalyr Agent.
@@ -296,8 +284,7 @@ configuration and then execute this command:
 
     docker run -d -e DOCKER_HOST_NAME='my-host' --name scalyr-docker-agent -v /var/run/docker.sock:/var/scalyr/docker.sock -p 601:601 customized-scalyr-docker-agent
 
-customize-logPath: <Customizing the log file names>
-### Customizing the log file names
+## Customizing Log File Names
 
 By default, all logs sent to the Scalyr Agent container via ``syslog`` are uploaded with log files names like:
 
@@ -328,36 +315,7 @@ name of the container generating the log file.
 
 Note, the agent will not create directories.  Make sure all directories in your path exist on the container.
 
-setting-parsers: <Setting parsers, sampling and redaction rules>
-### Setting parsers, sampling and redaction rules
-
-By default, all logs sent to the Scalyr Agent container are configured to use the ``dockerSyslog`` parser.  You may
-override this by providing additional configuration.
-
-To do so, you must create a log configuration stanza that matches the particular log file whose parser you wish to set.
-For example, follow the [instructions above to export the Scalyr Agent's configuration](#modify-config) and then create the following ``agent.d/container_logs.json`` file:
-
-    {
-      "logs":[ { 
-            "path": "/var/log/scalyr-agent-2/containers/*Frontend.log", 
-            "attributes": {"parser": "frontendLog"} 
-          }, { 
-            "path": "/var/log/scalyr-agent-2/containers/*Backend.log", 
-            "attributes": {"parser": "backendLog"}
-          } ]
-    }
-
-After you finish your modifications, be sure to import them back to the running Scalyr Agent using the above instructions.
-
-This would set ``frontendLog`` to be the parser for all logs uploaded by containers whose names end in ``Frontend``.  
-Similarly, it would set ``backendLog`` to be the parser for all logs with containers ending in ``Backend``.  As long as
-your container name defines the type of logs it generates, you will be able to set appropriate parsers.
-
-You can use this technique to also specify sampling and redaction rules.  See the [documentation on sampling and
-redaction rules](/help/scalyr-agent#filter) for more information.
-
-running-scalyr-agent-container: <Starting agent container>
-### Starting the Scalyr Agent container
+## Starting the Container
 
 As mentioned above, the typical command to start the Scalyr Agent command is below:
 
@@ -373,22 +331,20 @@ For reference, here is a description of the options:
 - ``-p 601:601`` maps the host's port ``601`` to the container's port ``601``.  This is the default syslog port the Scalyr Agent listens on.
 
 
-stopping-scalyr-agent-container: <Stopping agent container>
-### Stopping the Scalyr Agent container
+
+## Stopping the Container
 
 Assuming you have a container named ``scalyr-docker-agent`` running, it can be stopped with the following command:
 
     docker stop scalyr-docker-agent
 
-restarting-scalyr-agent-container: <Restarting agent container>
-### Restarting the Scalyr Agent container
+## Restarting the Container
 
 Assuming you have previously stopped a container named ``scalyr-docker-agent``, you can restart it with the command
 
     docker start scalyr-docker-agent
 
-check-scalyr-agent-container-status: <Checking agent status>
-### Checking the status of a running scalyr-agent container
+## Checking the Status
 
 To check the status of a currently running Scalyr Agent container, use the following command:
 
@@ -400,9 +356,7 @@ or
 
 to get more verbose output.
 
-
-log-volumes: <Logs from other containers>
-### Logs from other containers
+## Logs from Other Containers
 
 In order to gather log files from other containers, you must share volumes containing those log files with the Scalyr Agent 
 container.  You can then configure the Scalyr Agent as normal to copy those files to the Scalyr servers.
@@ -442,3 +396,14 @@ You could then run the scalyr-agent container with the following command:
     docker run -d --name scalyr-docker-agent -p 601:601 -v /tmp/api_key.json:/etc/scalyr-agent-2/agent.d/api_key.json --volumes-from logdata -v /var/run/docker.sock:/var/scalyr/docker.sock  scalyr/scalyr-docker-agent
 
 And configure the Scalyr Agent to track any log files of interest that existed in logdata’s volumes.
+
+## Troubleshooting Socket Issues
+
+You may need to determine the path for the Docker API socket and the containers directory on your machine. These instructions assume that the socket is located at ``/var/run/docker.sock`` and the containers directory is at ``/var/lib/docker/containers``.
+
+Typically, the socket is located at either ``/run/docker.sock`` or ``/var/run/docker.sock`` and the containers directory is at ``/var/lib/docker/containers`` For the Docker socket, be sure that you find the path to the true socket and not just a symlink to it.  Use ``ls -l`` to verify.  If both ``/run/docker.sock`` and ``/var/run/docker.sock`` are not symlinks, use ``/var/run/docker.sock``.  If neither file exists, try executing ``netstat --unix -l | grep docker.sock`` to locate the socket. Make sure your user has permission to access ``docker.sock``.
+
+If you've had any trouble, please [let us know](mailto:support@scalyr.com).
+
+
+

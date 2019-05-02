@@ -22,7 +22,7 @@ To verify:
 
 If any server is not listed:
 
-- If you have not installed the agent on this server, follow the [Agent Installation](/help/install-agent-linux) guide.
+- If you have not installed the agent on this server, follow the [Agent Installation](/docs/getting_started/agent_linux) guide.
 - If you have already installed the agent, consult the [Agent Troubleshooting](/help/scalyr-agent#troubleshooting) guide.
 
 2. You should assign a tag to the servers in the group, so that you can write a search that selects exactly those

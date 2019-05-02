@@ -1,39 +1,9 @@
 ---
 title: "More Data Sources"
 weight: 22
+notoc: true
 ---
 
-
-<style>
-div.logo-cloud img {
-  filter: saturate(0.75);
-  max-height:75px;
-}
-
-div.logo-cloud a {
-  display: inline-block;
-  text-align: center;
-  text-decoration: none;
-  padding: 8px !important;
-  margin: 8px !important;
-  padding-bottom: 16px;
-  border: 1px solid #ddd !important;
-  border-radius: 5px;
-  height: 110px;
-  width: 130px;
-}
-
-div.logo-cloud a span {
-    font-weight: bold;
-    font-size: 14px;
-    color: #4a5176;  
-  text-transform: uppercase;
-}
-
-div.logo-cloud {
-    margin-bottom: 20px
-}
-</style>
 
 <div class="logo-cloud">
   <a href="/help/monitors/apache">
@@ -90,9 +60,8 @@ div.logo-cloud {
     </a>
 </div>
 
-The Scalyr service is designed to let you work with all of your monitoring data -- not just logs or system metrics --
-in one place. This page lists all of the ways in which you can get data into Scalyr. Note that all options
-use secure encryption and realtime data streaming, so your data is always fresh and secure.
+Scalyr is designed to let you work with any monitoring data -- not just logs or system metrics --
+in one place:
 
 - **System metrics** are automatically uploaded when you install the [Scalyr Agent](/help/scalyr-agent).
 
@@ -131,17 +100,17 @@ use secure encryption and realtime data streaming, so your data is always fresh 
 - To log structured data directly from .NET applications, you can also use [Serilog](https://serilog.net/) in
   conjunction with the [Scalyr sink](https://www.nuget.org/packages/Serilog.Sinks.Scalyr).
 
-syslog: <Syslog>
-### Syslog
 
-Due to the difficulties of securing Syslog across networks, Scalyr does not accept Syslog directly from customers.
+## Syslog
+
+Due to the difficulties of securing Syslog across networks, Scalyr does not accept Syslog traffic directly.
 Instead, we recommend running an instance of the Scalyr Agent to accept Syslog traffic within your local network.
 The Scalyr Agent can be configured to act as a Syslog server, accepting connections from other hosts.  You may
 either run an instance of the Scalyr Agent on each host (preferred) or one instance for all of your hosts.
 
 To use the Scalyr Agent to collect your logs via Syslog, please:
 
-- Follow the [agent installation](/help/install-agent-linux) instructions to install the Scalyr Agent on a host (or hosts) in your network.
+- Follow the [agent installation](/docs/getting_started/agent_linux) instructions to install the Scalyr Agent on a host (or hosts) in your network.
 
 - Configure the [Scalyr Agent as a Syslog server](/help/monitors/syslog-monitor).  Remember, if your Scalyr
 Agent will be accepting Syslog traffic from other hosts, you must set ``accept_remote_connections`` to ``true``.
@@ -156,7 +125,7 @@ Where, ``<ip of agent>`` is replaced with the IP address of the host running the
 all messages of ``warning`` severity level or higher to the Scalyr Agent.  You will also need to execute
 ``sudo service rsyslog restart`` for the changes to take affect.
 
-heroku: <Heroku and AppHarbor>
+
 ## Heroku and AppHarbor
 
 Importing logs from a Heroku application is quick and easy. Simply type the following command on a system where
@@ -177,22 +146,16 @@ If you're using AppHarbor, configure it to send logs via LogPlex to this URL:
 Your logs should begin appearing in Scalyr within seconds. Refresh the [Overview](/logStart[[[emitSoleParamTeamTokenIfPhoenix]]]) 
 page, and look for a server named "heroku".
 
-### Multiple applications
-
 If you have multiple applications, you can include "host", "logfile", and/or "parser" parameters in the logplex URL.
 The first two parameters specify the hostname and log file name under whch your logs will appear on Scalyr's
 Overview page. The parser parameter identifies the log format; with Heroku, you can usually omit this parameter
 and accept the default ("heroku-logplex").
 
 
-graphite: <Graphite>
-## Graphite Relay
 
-Graphite is an open-source system for storing and graphing timeseries data. The Scalyr Agent can masquerade as a Graphite
-server, acting as a relay to the Scalyr service. This allows you to use Scalyr with any tool that reports metrics using the
-Graphite network protocol.
+## Graphite
 
-To begin with, follow the [agent installation](/help/install-agent-linux) instructions 
+Follow the [agent installation](/docs/getting_started/agent_linux) instructions 
 to install the Scalyr Agent. It's generally best to install the agent on each server you want to monitor, so that it can 
 provide system metrics and log files, and so that the Graphite data will automatically be tagged as having come from 
 that server.

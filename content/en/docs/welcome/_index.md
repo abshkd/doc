@@ -2,6 +2,7 @@
 title: "Welcome to Scalyr"
 linkTitle: "Welcome"
 url: /
+notoc: true
 weight: 1
 ---
 

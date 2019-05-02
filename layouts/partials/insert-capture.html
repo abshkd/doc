@@ -1,0 +1,8 @@
+{{- $capture_id := printf "__cid_%s" .id -}}
+{{ $out := .Page.Scratch.Get $capture_id }}
+
+This is the capture:
+{{ printf "%#v" $out }}
+{{- with .ctx.Scratch.Get $capture_id -}}
+{{- . -}}
+{{- end -}}

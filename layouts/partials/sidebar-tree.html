@@ -1,10 +1,55 @@
 <style>
-  nav > ul:first-child > li{
+  nav.td-sidebar-nav > ul:first-child > li{
       display: none;
   }
   .break {
     margin-top: 20px !important;
   }
+  nav#TableOfContents > ul > li > ul > li > ul > li{
+    display: none;
+  }
+  nav#TableOfContents > ul {
+    list-style: none;
+    margin-left: -50px;
+  }
+  nav#TableOfContents > ul > li > ul {
+    list-style-type: square;
+  }
+
+  div.logo-cloud  {
+    margin-bottom: 20px
+  }
+
+  div.logo-cloud img {
+    filter: saturate(0.75);
+    max-height:75px;
+  }
+
+  div.logo-cloud a {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 8px !important;
+    margin: 8px !important;
+    padding-bottom: 16px;
+    border: 1px solid #ddd !important;
+    border-radius: 5px;
+    height: 110px;
+    width: 130px;
+  }
+
+  div.logo-cloud a img {
+    width: 75px;
+    height: 75px
+  }
+
+  div.logo-cloud a span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #4a5176;
+    text-transform: uppercase;
+  }
+
 </style>
 
 {{/* We cache this partial for bigger sites and set the active class client side. */}}

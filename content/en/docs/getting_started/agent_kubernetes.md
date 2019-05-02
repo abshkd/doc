@@ -1,9 +1,14 @@
 ---
-title: "Kubernetes"
+title: "K8s Installation"
 weight: 10
+warning: "__Note:__ We recommend using [Helm](#) for importing logs from a Kubernetes cluster, as it's much simpler.
+<br><br>
+To run the agent directly on Linux, Windows, or another container service, see the specific guides to the left.
+"
+beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr/scalyr-agent-2) that uploads logs and system metrics to Scalyr.
+<br><br>For Kubernetes, we find it works best if you set it up as a DaemonSet that runs a dedicated pod on each node in your cluster to collect logs and metrics from all other pods 
+    running on the same node. "
 ---
-
-This document describes how to import logs from a Kubernetes cluster by running the Scalyr Agent as a DaemonSet on your Kubernetes cluster.
 
 ## First Time Installation
 
@@ -23,7 +28,7 @@ This document describes how to import logs from a Kubernetes cluster by running 
 
     ```kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-agent-2.yaml```
 
-Configure your DaemonSet by following [these](#configuration) instructions. 
+Configure your DaemonSet by following [these](#configuration) instructions below. 
 
 ## Upgrading
 
@@ -43,9 +48,9 @@ Configure your DaemonSet by following [these](#configuration) instructions.
 
     ```kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-agent-2.yaml```
 
-Configure your DaemonSet by following [these](#configuration) instructions.
+Configure your DaemonSet by following [these](#configuration) instructions below.
 
-## Checking the Status of a Node Running the Scalyr Agent
+## Checking the Agent Status
 
 To check the status of a currently running Scalyr Agent container, first use kubectl to find the name of the pod in which you are interested:
 
@@ -56,7 +61,7 @@ And once you have the name of the pod that is running the Scalyr Agent use the f
     kubectl exec <pod_name> -- scalyr-agent-2 status [-v for verbose]
 
 
-## Stopping the Scalyr Agent DaemonSet
+## Stopping the Agent
 
 If you wish to stop running the Scalyr Agent DaemonSet entirely, then (assuming you are using the default configuration and your DaemonSet's name is 'scalyr-agent-2') run:
 
@@ -64,9 +69,23 @@ If you wish to stop running the Scalyr Agent DaemonSet entirely, then (assuming 
 
 There is currently no convenient way to temporarily stop the Scalyr Agent already running on a specific node. If you wish to avoid running the Scalyr Agent on a specific node in your cluster, then see the section on [Running the DaemonSet on only some nodes](#running-only-on-some-nodes).
 
+## Events
+
+By default, the Scalyr Agent will collect pod logs, container metrics, and K8S events for all nodes. For more details and otions, see the [Kubernetes Events monitor](/help/monitors/kubernetes-events) documentation.
 
 
-## Running the DaemonSet on Select Nodes
+## Don't Run on Master Node
+
+In our recommended setup, a DaemonSet runs a Scalyr Agent pod on each node in your cluster that will collect logs and metrics from all other 
+pods running on the same node. Note that this will run the agent on the master node; if you do not want to run the agent on the master, comment out
+the following in https://github.com/scalyr/scalyr-agent-2/blob/master/k8s/scalyr-agent-2.yaml:
+
+    tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+
+## Running on Select Nodes
 
 If you would like to run the Scalyr Agent only on certain nodes of your cluster, you can do so by adding a *nodeSelector* or a *nodeAffinity* section to your config file.  For example, if the nodes that you wanted to run the Scalyr Agent on had a label 'logging=scalyr' then you could add the following nodeSelector to your configuration file:
 
@@ -112,64 +131,64 @@ The Scalyr Agent will automatically use the following for that pod's log_config
     { "attributes": { "parser": "accessLog" } }
 
 
-### Specify Parser
+## Specifying Parsers
 
 You can add a custom parser to a pod in a Kubernetes cluster. You can read more about applying parsers to the Scalyr Agent [here](/help/scalyr-agent#logUpload).
 
-##### Via Annotation
+Via Annotation
 
     log.config.scalyr.com/attributes.parser: accessLog
 
-##### Via CLI
+Via the CLI
 
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/attributes.parser=custom-parser
 
-##### Via YAML
+Via YAML
 
     metadata:
         annotations:
           "log.config.scalyr.com/attributes.parser": "custom-parser"
 
 
-### Excluding Logs
+## Excluding Logs
 
-If you would like to prevent a pod from streaming logs to Scalyr, you can specifically exclude/include them.
+If you would like to prevent a pod from streaming logs to Scalyr, you can specifically exclude (or include) them.
 
-##### Via Annotation
+Via Annotation
 
     log.config.scalyr.com/include:  false
     log.config.scalyr.com/exclude:  true
 
-##### Via CLI
+Via the CLI
 
 Command line configuration of log exclusion is not supported.
 
-##### Via YAML
+Via YAML
 
     metadata:
        annotations:
           "log.config.scalyr.com/exclude": "true/false"
 
 
-### Sampling High Volume Logs
+## Sampling High Volume Logs
 
-You can read more about log sampling [here](/help/scalyr-agent#filter)
+You can read more about log sampling [here](/help/scalyr-agent#filter).
 
-##### Via Annotation
+Via Annotation
 
     log.config.scalyr.com/sampling_rules.0.match_expression: INFO
     log.config.scalyr.com/sampling_rules.0.sampling_rate: 0.1
     log.config.scalyr.com/sampling_rules.1.match_expression: FINE
     log.config.scalyr.com/sampling_rules.1.sampling_rate: 0
 
-##### Via CLI
+Via the CLI
 
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.0.match_expression=INFO
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.0.sampling_rate=0.1
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.1.match_expression=FINE
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.1.sampling_rate=0
 
-##### Via YAML
+Via YAML
 
     metadata:
        annotations:
@@ -178,60 +197,60 @@ You can read more about log sampling [here](/help/scalyr-agent#filter)
           "log.config.scalyr.com/sampling_rules.1.match_expression": "FINE",
           "log.config.scalyr.com/sampling_rules.1.sampling_rate": "0"
 
-### Attributes
+## Attributes
 
 You can specify additional fields in attributes. This allows you to distinguish between different pods. For instance, you might give the pod a field like service: "database" to identify the service that generates this log; you could then add $service = "database" to any query to search only your database logs.
 
-##### Via Annotation
+Via Annotation
 
     log.config.scalyr.com/attributes.key: value
 
-##### Via CLI
+Via the CLI
 
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/attributes.key=value
 
-##### Via YAML
+Via YAML
 
     metadata:
        annotations:
           "log.config.scalyr.com/attributes.key": "value"
 
-### Redaction Rules
+## Redaction/Scrubbing Rules
 
 Here is an example stanza to define redaction rules (more on [log redaction](/help/scalyr-agent#filter)):
 
-##### Via Annotation
+Via Annotation
 
     "log.config.scalyr.com/redaction_rules.match_expression": "password=[^& ]*"
     "log.config.scalyr.com/redaction_rules.replacement": "userInfo=\\1"
 
-##### Via CLI
+Via CLI
 
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/redaction_rules.0.match_expression=password=[^& ]*
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/redaction_rules.0.replacement=userInfo=\\1
 
-##### Via YAML
+Via YAML
 
     metadata:
        annotations:
           "log.config.scalyr.com/redaction_rules.0.match_expression": "password=[^& ]*"
           "log.config.scalyr.com/redaction_rules.0.replacement": "userInfo=\\1"
 
-### Renaming
+## Renaming
 
 You can rename your log file(s) before they are uploaded to the Scalyr servers (more on [renaming log files](/scalyr-agent#logFileRenaming)).
 
-##### Via Annotation
+Via Annotation
 
     log.config.scalyr.com/path=/from_path/from_name.log
     log.config.scalyr.com/rename_logfile=/to_path/to_name.log
 
-##### Via CLI
+Via CLI
 
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/path=/from_path/from_name.log
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/rename_logfile=/to_path/to_name.log
 
-##### Via YAML
+Via YAML
 
     metadata:
        annotations:
@@ -239,13 +258,15 @@ You can rename your log file(s) before they are uploaded to the Scalyr servers (
            "log.config.scalyr.com/rename_logfile": "/to_path/to_name.log"
            
 
-The following are not currently supported or have limited support in the Kubernetes Agent
+## Not Supported
+
+The following are not currently supported or have limited support in the Kubernetes Agent:
 
 - lineGroupers
 - path
 - server_attributes
 
-### Mapping Configuration Options
+## Mapping Configuration Options
 
 The Kubernetes monitor takes the string value of each annotation that begins with prefix ``log.config.scalyr.com/`` and
 maps it according to the following format:
@@ -288,7 +309,7 @@ so if the config was specified as:
 
 It is not defined or guaranteed what the actual value will be (INFO or FINE).
 
-### Applying Config Options to Specific Containers in a Pod
+## Specific Containers in a Pod
 
 If a pod has multiple containers and you only want to apply log configuration options to a
 specific container, you can do so by prefixing the option with the container name. For example, if you
@@ -309,7 +330,7 @@ This technique is applicable for all log config options, not just include/exclud
 example, you could set the line sampling rules for all containers in a pod, but use a different set
 of line sampling rules for one specific container in the pod if needed.
 
-### Dynamic Updates
+## Dynamic Updates
 
 Currently all annotation config options except ``exclude: true`/`include: false`` can be
 dynamically updated using the ``kubectl annotate`` command.
@@ -320,7 +341,7 @@ container using annotations without updating the config yaml, and applying the u
 cluster.
 
 
-## ConfigMaps
+## Using ConfigMaps
 
 As detailed below, modifying the configuration of the Scalyr Agent on the fly can be done using a [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-configmaps-from-directories):
 
@@ -335,7 +356,7 @@ As detailed below, modifying the configuration of the Scalyr Agent on the fly ca
 5.  [Modify your DaemonSet](#modify-daemonset)
 
 
-### Export Your Configuration Files
+## Exporting Configuration Files
 
 You can create a ConfigMap based on an existing Scalyr Agent's configuration.  For example, if you had a test container called ``scalyr-k8s-agent`` running on Docker as a standalone container, you can run the following commands to export its configuration files:
 
@@ -347,7 +368,7 @@ After these commands finish, your current directory will have one file ``agent.j
 
 **Note:** It's important to run this command on a container based off the scalyr ``/scalyr-k8s-agent`` rather than ``scalyr/scalyr-docker-agent`` in order to have the correct default configuration.
 
-### Test Your Configuration
+## Testing your Configuration
 
 You can then edit those files to make whatever changes you need and write the changes back to the container for further testing, with this command:
 
@@ -355,7 +376,7 @@ You can then edit those files to make whatever changes you need and write the ch
 
 There is no need to restart the Scalyr Agent after writing the configuration files. The running Scalyr Agent should notice the new configuration files and read them within 30 seconds.
 
-### Create Your ConfigMap
+## Creating a ConfigMap
 
 After you have configured the Agent and confirmed the configuration changes are working as expected, export the configuration files to your ConfigMap. Changes to this ConfigMap will reflect the global configuration of the DaemonSet pods. You will make most of your changes in the ``agent.d`` directory. To modify the ``agent.json`` configuration file, you can follow the steps provided [here](#agent-json). Since Kubernetes does not yet support recursive ConfigMaps, you will create one ConfigMap for each directory you want to map. 
 
@@ -405,7 +426,7 @@ After you have configured the Agent and confirmed the configuration changes are 
           "scalyr_server": "$SCALYR_SERVER"
         }
 
-### Modify Your DaemonSet Configuration 
+## Modifying DaemonSet Configurations 
 
 Once you have created your ConfigMaps, it is important to add them to the DaemonSet's configuration.  This can be done as follows:
 
@@ -426,7 +447,7 @@ This will write the contents of each of the files in the ``scalyr-config-agent-j
 **Note**: If you specify a ConfigMap as a volume mount in your DaemonSet configuration, but you have not yet created that ConfigMap, Kubernetes will not start any pods that require the ConfigMap until it has been created.
 
 
-### Update Your ConfigMap
+## Updating Your ConfigMap
 
 Once you have configured the DaemonSet to use a ConfigMap, and you wish to update the configuration (assuming you are in a directory containing a the files you would like to modify). Scalyr Agent configuration, you can replace the contents of ConfigMap by executing:
 
@@ -435,7 +456,7 @@ Once you have configured the DaemonSet to use a ConfigMap, and you wish to updat
 The changes will manifest on all nodes running the DaemonSet that are configured to use the ConfigMap, and once the configuration files have changed the Scalyr Agent will automatically detect these changes and start using the new configuration.
 
 
-### Updating agent.json
+## Updating agent.json
 
 In some cases you may want to update your ``agent.json`` file. Since Kubernetes does not support recursive ConfigMaps, the process is to create a second ConfigMap and add it to your DaemonSet configuration.
 
@@ -487,7 +508,7 @@ Your ``scaly-config-agent-json`` ConfigMap should look something like this:
 
 **Note** Comments and other issues with syntax (like empty comments) will affect the way this ConfigMap is written. 
 
-## Creating Custom Scalyr Agent Configurations
+## Creating Custom Configurations
 
 The default Kubernetes configuration file for the Scalyr Agent does the following:
 
@@ -500,7 +521,7 @@ The default Kubernetes configuration file for the Scalyr Agent does the followin
 You can see the full configuration file [here](https://raw.githubusercontent.com/scalyr/scalyr-agent-2/master/k8s/scalyr-agent-2.yaml).
 
 
-## Creating Custom Scalyr Agent Docker Images
+## Creating Custom Docker Images
 
 You can turn on several useful features in the Scalyr Agent by modifying its configuration files. As discussed above, it
 is often easier to use the annotation-based configuration options.  However, sometimes you may wish to include your
@@ -532,7 +553,7 @@ and then launching the DaemonSet based on the new configuration file
     kubectl create -f my-custom-configuration.yaml
 
 
-## Testing your Custom Configuration Locally
+## Testing Custom Configurations Locally
 
 Before deploying a custom Scalyr Agent image to your cluster, it's a good idea to test it locally to make sure there are no configuration errors or problems.
 
@@ -556,16 +577,6 @@ If everything is configured correctly, you should see a message similar to 'Conf
 
 Once you can confirm that the scalyr-agent runs correctly and is uploading logs to the Scalyr server, then you are ready to run that container on your Kubernetes cluster.
 
-## Events
-
-By default, the Scalyr Agent will collect pod logs, container metrics, and K8S events for all nodes. For more details and otions, see the [Kubernetes Events monitor](/help/monitors/kubernetes-events) documentation.
-
-In our recommended setup, a DaemonSet runs a Scalyr Agent pod on each node in your cluster that will collect logs and metrics from all other pods running on the same node. Note that this will run the agent on the master node; if you do not want to run the agent on the master, comment the following in https://github.com/scalyr/scalyr-agent-2/blob/master/k8s/scalyr-agent-2.yaml:
-
-    tolerations:
-      - key: "node-role.kubernetes.io/master"
-        operator: "Exists"
-        effect: "NoSchedule"
 
 
 

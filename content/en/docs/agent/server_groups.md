@@ -19,7 +19,7 @@ To verify:
 
 If any server is not listed:
 
-- If you have not installed the agent on that server, follow the [Agent Installation](/help/install-agent-linux) guide.
+- If you have not installed the agent on that server, follow the [Agent Installation](/docs/getting_started/agent_linux) guide.
 - If you have already installed the agent, consult the [Agent Troubleshooting](/help/scalyr-agent#troubleshooting) guide.
 
 

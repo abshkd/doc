@@ -1,16 +1,13 @@
 ---
 title: How Scalyr Works
 weight: 101
+beforetoc: "Scalyr is a service. You don't need to know how it works. But you're an engineer; you *like* knowing how things work.
+            This page is for you."
 ---
 
-Scalyr is a service. You don't need to know how it works. But you're an engineer; you *like* knowing how things work.
-This page is for you.
-
-
-overview: <Overview>
 ## Overview
 
-[[[{type: "image", name: "external-block-diagram.png", maxWidth: 750}]]]
+![](https://www.scalyr.com/images/doc/external-block-diagram.png)
 
 Scalyr unifies multiple functions into a single tool: log aggregation, search, and analysis; server metrics;
 dashboards and alerts, external monitoring, and more. At the heart of all this is the **event database**, a universal
@@ -30,7 +27,6 @@ can also analyze and retrieve data using our [API](/help/api) or
 automatically query the event database and notify you when specified conditions occur.
 
 
-agent: <Agent>
 ## Agent
 
 The Scalyr Agent is a daemon that you install on your servers. It sits in the background, monitoring the log files you
@@ -44,7 +40,6 @@ servers can't push commands or new configuration down to the agent. You're alway
 agent's behavior.
 
 
-monitors: <Monitors>
 ## Monitors
 
 A **monitor** is an active data-gathering process that runs inside Scalyr servers. Examples:
@@ -59,7 +54,6 @@ A **monitor** is an active data-gathering process that runs inside Scalyr server
   log files for your RDS databases.
 
 
-parsing: <Log Parsing>
 ## Log Parsing
 
 As log messages arrive, the Scalyr server parses them to extract structured fields. These fields are recorded in the
@@ -72,7 +66,6 @@ messages, such as stack traces, into a single event. It can even associate value
 they share a transaction identifier or other common field.
 
 
-alerts: <Alerts>
 ## Alerts
 
 [Alerts](/help/alerts) are managed by a background process on Scalyr's database servers. 
@@ -81,7 +74,6 @@ a task to alert your specified recipient(s).  This task is stored durably in our
 retried reliably until delivery occurs.
 
 
-security: <Security>
 ## Security
 
 Security is a key driver behind every aspect of our system design. Some of the steps we take:
@@ -97,7 +89,6 @@ Security is a key driver behind every aspect of our system design. Some of the s
   The Scalyr Agent runs with a token that only allows it to upload new log data.
 
 
-reliability: <Service Reliability>
 ## Service Reliability
 
 We take our responsibility of providing a reliable service very seriously. We run in multiple data centers, with full
@@ -115,7 +106,6 @@ redundancy. We closely monitor all servers, with overlapping mechanisms:
 - To break the Scalyr-monitors-Scalyr recursion, we also monitor our servers using Pingdom.
 
 
-diagram: <System Diagram>
 ## System Diagram
 
 [[[{type: "image", name: "internal-block-diagram.png", maxWidth: 750}]]]
@@ -133,7 +123,6 @@ database server.
 Monitors (for probing web servers, retrieving Amazon CloudWatch metrics, CloudFront, CloudTrail, ELB, RDS,
 Redshift, and S3 logs, and more) run on monitor servers.
 
-database: <Event Database>
 ## Event Database
 
 The event database is Scalyr's universal repository for logs, metrics, and other operational data. Each message or
