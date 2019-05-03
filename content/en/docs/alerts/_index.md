@@ -1,5 +1,5 @@
 ---
-title: "Create Alerts"
+title: "Creating Alerts"
 weight: 23
 ---
 
@@ -26,28 +26,28 @@ To define a new rule, go to the Search page, set up a search that includes filte
 
 The editor displays the following property fields, which define the rule:
 
-|||  Property            |||   Description                                                  |||   Default
-|||  Description         |||   Description of the condition \
+|  Property            |   Description                                                  |   Default
+|  Description         |   Description of the condition \
                                that triggers this alert. Shown \
                                in all three tabs on the Alerts page, \
                                and included in alert notification messages. \
-                               Serves as the rule's name.                                   |||   The actual query expression
-|||  Trigger             |||   Specifies the interval and condition that trigger \
+                               Serves as the rule's name.                                   |   The actual query expression
+|  Trigger             |   Specifies the interval and condition that trigger \
                                the alert. \
                                Refer to [Trigger Expressions](/help/alerts#triggers) below \
-                               for more details.                                            |||   Any instance
-|||  email              |||   Specifies one or more email addresses to notify. \
+                               for more details.                                            |   Any instance
+|  email              |   Specifies one or more email addresses to notify. \
                                Multiple \
-                               addresses must be separated by commas or semicolons.         |||   The address of the current user or account.
-|||  Grace Period        |||   Specifies the duration a trigger event must last \
+                               addresses must be separated by commas or semicolons.         |   The address of the current user or account.
+|  Grace Period        |   Specifies the duration a trigger event must last \
                                before an alert is generated.  Details are provided \
-                               [below](#gracePeriod).                                       |||   1 minute
-|||  Reminder Period     |||   Specifies the interval, in minutes, at which Scalyr \
+                               [below](#gracePeriod).                                       |   1 minute
+|  Reminder Period     |   Specifies the interval, in minutes, at which Scalyr \
                                will send repeat alerts about the same continuing event. \
-                               Details are provided [below](#reminders).                    |||   60 minutes
-|||  Resolution Delay    |||   Specifies how long an alert condition must no longer \
+                               Details are provided [below](#reminders).                    |   60 minutes
+|  Resolution Delay    |   Specifies how long an alert condition must no longer \
                                be true for the alert to be considered resolved. Details \
-                               are provided [below](#resolution).                           |||   5 minutes
+                               are provided [below](#resolution).                           |   5 minutes
    
 When you have set the properties for a rule, click the Save button and it will be added to the list on the Alerts page. New rules take effect immediately.
 
@@ -145,15 +145,15 @@ Alert if available disk space falls by more than 1GB in an hour (ex. if in the l
 
 You can use the following special functions in defining trigger expressions:
 
-|||  Function                    |||   Result
-|||  ``hourOfDay()``             |||   The current hour of the day (0 - 23), in GMT.
-|||  ``hourOfDay(timeZone)``     |||   The current hour of the day (0 - 23), in the specified time zone. For instance, \
+|  Function                    |   Result
+|  ``hourOfDay()``             |   The current hour of the day (0 - 23), in GMT.
+|  ``hourOfDay(timeZone)``     |   The current hour of the day (0 - 23), in the specified time zone. For instance, \
                                        "PST".
-|||  ``dayOfWeek()``             |||   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), in GMT.
-|||  ``dayOfWeek(timeZone)``     |||   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), \
+|  ``dayOfWeek()``             |   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), in GMT.
+|  ``dayOfWeek(timeZone)``     |   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), \
                                        in the specified time zone. For instance, "PST".
-|||  ``dayOfMonth()``            |||   The current date of the month (1 for the first day of the month), in GMT.
-|||  ``dayOfMonth(timeZone)``    |||   The current date of the month (1 for the first day of the month), in the \
+|  ``dayOfMonth()``            |   The current date of the month (1 for the first day of the month), in GMT.
+|  ``dayOfMonth(timeZone)``    |   The current date of the month (1 for the first day of the month), in the \
                                        specified time zone. For instance, "PST".
 
 The ``hourOfDay()``, ``dayOfWeek()``, and ``dayOfMonth()`` functions can be used to write rules that only trigger during
@@ -571,12 +571,12 @@ will generally want to specify both webhook-trigger and webhook-resolve recipien
 You can embed tokens in a webhook URL or body, which will be replaced by information about the alert. The following
 tokens are supported:
 
-|||  Token             |||   Replaced by
-|||  ``#trigger#``     |||   The trigger expression that determines when the alert fires.
-|||  ``#description#`` |||   The description you've specified for the alert. If absent, the trigger expression is used.
-|||  ``#title#``       |||   The first line of the description.
-|||  ``#link#``        |||   A link to the alert.
-|||  ``#id#``          |||   A short token identifying the alert.
+|  Token             |   Replaced by
+|  ``#trigger#``     |   The trigger expression that determines when the alert fires.
+|  ``#description#`` |   The description you've specified for the alert. If absent, the trigger expression is used.
+|  ``#title#``       |   The first line of the description.
+|  ``#link#``        |   A link to the alert.
+|  ``#id#``          |   A short token identifying the alert.
 
 Any other use of # is left alone. In particular, if your webhook contains a sequence like ``#foo#``, it will be left unchanged.
 
@@ -590,31 +590,31 @@ Scalyr generates three kinds of log records which you can use to review your ale
 ([sample query](/events?filter=tag%3D%27alertState%27[[[emitAddlParamTeamTokenIfPhoenix]]])). Each
 record has the following fields:
 
-|||  Field            |||   Value
-|||  ``tag``          |||   ``alertState``
-|||  ``state``        |||   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
-|||  ``trigger``      |||   The alert's trigger condition
-|||  ``description``  |||   The alert's description
+|  Field            |   Value
+|  ``tag``          |   ``alertState``
+|  ``state``        |   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
+|  ``trigger``      |   The alert's trigger condition
+|  ``description``  |   The alert's description
 
 An **alert notification** record ([sample query](/events?filter=tag%3D%27alertNotification%27[[[emitAddlParamTeamTokenIfPhoenix]]])) is generated whenever Scalyr
 sends an "alert triggered" or "alert resolved" message:
 
-|||  Field                  |||   Value 
-|||  ``tag``                |||   ``alertNotification`` 
-|||  ``newState``           |||   2 if the alert condition is met (i.e. the alert is triggered), \
+|  Field                  |   Value 
+|  ``tag``                |   ``alertNotification`` 
+|  ``newState``           |   2 if the alert condition is met (i.e. the alert is triggered), \
                                   1 otherwise  
-|||  ``trigger``            |||   The alert's trigger condition
-|||  ``description``        |||   The alert's description 
-|||  ``isRenotification``   |||   True for a repeated notification of an alert that has been triggered for a long time, false otherwise 
+|  ``trigger``            |   The alert's trigger condition
+|  ``description``        |   The alert's description 
+|  ``isRenotification``   |   True for a repeated notification of an alert that has been triggered for a long time, false otherwise 
 
 A **state change** record ([sample query](/events?filter=tag%3D%27alertStateChange%27[[[emitAddlParamTeamTokenIfPhoenix]]])) is generated when an alert's state
 changes between "triggered" and "not triggered":
 
-|||  Field             |||   Value
-|||  ``tag``           |||   ``alertStateChange``
-|||  ``newState``      |||   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
-|||  ``trigger``       |||   The alert's trigger condition
-|||  ``description``   |||   The alert's description
+|  Field             |   Value
+|  ``tag``           |   ``alertStateChange``
+|  ``newState``      |   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
+|  ``trigger``       |   The alert's trigger condition
+|  ``description``   |   The alert's description
 
 ``alertNotification`` and ``alertStateChange`` records are similar. An ``alertStateChange`` record is generated immediately when
 the alert's state changes. If the alert has a grace period, then the ``alertNotification`` record may be delayed or

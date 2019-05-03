@@ -162,18 +162,18 @@ click on serverHost, and select a hostname to view the thread count for that ser
 
 Here is a complete list of supported fields:
 
-|||# Tag                                 ||| Meaning
-|||# ``jvm.uptimeMs``                    ||| how long the JVM has been running, in milliseconds 
-|||# ``jvm.threads.threadCount``         ||| the number of active threads 
-|||# ``jvm.threads.daemonThreadCount``   ||| how many of the active threads are daemon threads 
-|||# ``jvm.heap.used``                   ||| total space used in the Java heap (bytes) 
-|||# ``jvm.heap.free``                   ||| total space available in the Java heap (bytes) 
-|||# ``jvm.nonHeap.used``                ||| total space used for memory outside the Java heap (bytes) 
-|||# ``jvm.nonHeap.free``                ||| total space available for memory outside the Java heap (bytes) 
-|||# ``jvm.pool.$POOL$.used``            ||| total space used in the specified memory pool (reported for each pool) 
-|||# ``jvm.pool.$POOL$.free``            ||| free space in the specified memory pool (reported for each poo) 
-|||# ``jvm.collector.$COLLECTOR$.count`` ||| number of times this garbage collector has been invoked (reported for each collector) 
-|||# ``jvm.collector.$COLLECTOR.timeMs`` ||| total time spent in this garbage collector, in milliseconds (reported for each collector) 
+Tag                                 | Meaning
+``jvm.uptimeMs``                    | how long the JVM has been running, in milliseconds 
+``jvm.threads.threadCount``         | the number of active threads 
+``jvm.threads.daemonThreadCount``   | how many of the active threads are daemon threads 
+``jvm.heap.used``                   | total space used in the Java heap (bytes) 
+``jvm.heap.free``                   | total space available in the Java heap (bytes) 
+``jvm.nonHeap.used``                | total space used for memory outside the Java heap (bytes) 
+``jvm.nonHeap.free``                | total space available for memory outside the Java heap (bytes) 
+``jvm.pool.$POOL$.used``            | total space used in the specified memory pool (reported for each pool) 
+``jvm.pool.$POOL$.free``            | free space in the specified memory pool (reported for each poo) 
+``jvm.collector.$COLLECTOR$.count`` | number of times this garbage collector has been invoked (reported for each collector) 
+``jvm.collector.$COLLECTOR.timeMs`` | total time spent in this garbage collector, in milliseconds (reported for each collector) 
 
 rawFiles: <Raw Configuration Files>
 ## Raw Configuration Files 

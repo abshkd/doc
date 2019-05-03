@@ -1,5 +1,5 @@
 ---
-title: "Use Dashboards"
+title: "Using Dashboards"
 weight: 41
 ---
 
@@ -77,14 +77,14 @@ To **delete a dashboard**, open it and click Settings > Dashboard Settings, and 
 
 Though you do not edit dashboards themselves (except to rename them), you can change several of the display properties of the individual graphs within them. To do this, click the hamburger button in the upper right of the tiled graph, and select Edit Graph. This opens the Edit Graph window with the fields described below. (Note that they differ depending on graph type.)
 
-|||  Field/Control   |||   Function
-|||  Title   |||   Allows you to rename the graph
-|||  Type   |||    Line, Stacked, or Bar Interval
-|||  Time Interval   |||   For bar interval style, specifies the time interval on the X-axis
-|||  Plot List   |||   List of the color-coded plots the graph contains. You use this list to delete plots from the graph, or edit them with the Plot Editor (see below). Does not display for Breakdown graphs.
-|||  Add Plot button   |||   Lets you define more plots in the graph. Does not display for Breakdown graphs.
-|||  Field   |||   Displays the field used for breakdown. Displays only for Breakdown graphs.
-|||  Remove Graph   |||   Click this to delete the graph from the dashboard. 
+|  Field/Control   |   Function
+|  Title   |   Allows you to rename the graph
+|  Type   |    Line, Stacked, or Bar Interval
+|  Time Interval   |   For bar interval style, specifies the time interval on the X-axis
+|  Plot List   |   List of the color-coded plots the graph contains. You use this list to delete plots from the graph, or edit them with the Plot Editor (see below). Does not display for Breakdown graphs.
+|  Add Plot button   |   Lets you define more plots in the graph. Does not display for Breakdown graphs.
+|  Field   |   Displays the field used for breakdown. Displays only for Breakdown graphs.
+|  Remove Graph   |   Click this to delete the graph from the dashboard. 
 
 The Plot Editor lets you define the following properties:
 
@@ -473,7 +473,7 @@ You can use the ``+`` operator to split the query across multiple lines. For exa
     {
       graphs: [
         {
-          title: "Top 5 Paths by Error Count",
+         title: "Top 5 Paths by Error Count",
           query: "$logfile contains 'access' " +
                  "| group total = count(), errors = count(status >= 500 && status <= 599) by uriPath " +
                  "| sort -total " +
@@ -503,7 +503,7 @@ To create a report, follow these steps:
     {
       graphs: [
         {
-          title: "HTTP requests, by path",
+         title: "HTTP requests, by path",
           keys: [
             { label: "Path", attribute: "uriPath" }
           ],
@@ -545,7 +545,7 @@ for instance, servers could be grouped by data center and hostname.
 The report will display up to 1000 distinct rows. If you would like to reduce the number of rows (for instance,
 to make room for other elements in your dashboard), specify a ``maxRows`` setting. For instance:
 
-          title: "20 most common HTTP request paths",
+         title: "20 most common HTTP request paths",
           ***maxRows: 20,***
           keys: [
             { label: "Path", attribute: "uriPath" }
@@ -611,7 +611,7 @@ when applied to the HTTP status in a web access log, this generates a breakdown 
 a simple report definition using a breakdown:
 
     {
-      title: "HTTP requests, by path and status",
+     title: "HTTP requests, by path and status",
       keys: [
         { label: "Path", attribute: "uriPath", maxDisplayLength: 100 }
       ],
@@ -627,9 +627,9 @@ a simple report definition using a breakdown:
     
 This will generate a table looking something like this:
 
-|||# Path             ||| 200 ||| 201 ||| 502 ||| Total
-|||# /index.html      ||| 361 |||  11 |||  29 ||| 401
-|||# /foo             |||  11 |||     |||   1 ||| 12
+Path             | 200 | 201 | 502 | Total
+/index.html      | 361 |  11 |  29 | 401
+/foo             |  11 |     |   1 | 12
 
 The following options can be included with a breakdown column:
 

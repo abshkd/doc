@@ -6,7 +6,7 @@ How to generate notifications based on server metrics, such as a full
 disk or overloaded CPU.
 
 
-## Prerequisites
+## Before You Start
 
 1. The Scalyr Agent should be installed on the server you want to monitor.
 
@@ -35,17 +35,17 @@ version of that graph.
 on the first metric listed, skip to step 5. Otherwise, you will need to edit the Expression box in the graph
 form, to specify the appropriate metric. Use the following chart:
 
-|||# Metric                          ||| Edit
-|||# 1-minute CPU load average       ||| None
-|||# 15-minute CPU load average      ||| Change ``proc.loadavg.1min`` to ``proc.loadavg.15min``
-|||# User CPU usage                  ||| None
-|||# System or iowait CPU usage      ||| Change ``type='user'`` to ``type='system'`` or ``type='iowait'``
-|||# Free space on root disk         ||| None
-|||# Free space on other disk        ||| Change ``mount='/'`` to ``mount='/mount-point-of-other-disk'``
-|||# Inbound network bandwidth       ||| None
-|||# Outbound network bandwidth      ||| Change ``direction='in'`` to ``direction='out'``
-|||# Average latency of disk reads   ||| None
-|||# Average latency of disk writes  ||| Change ``metric='iostat.part.msec_read'`` to ``metric='iostat.part.msec_write'``
+Metric                          | Edit
+1-minute CPU load average       | None
+15-minute CPU load average      | Change ``proc.loadavg.1min`` to ``proc.loadavg.15min``
+User CPU usage                  | None
+System or iowait CPU usage      | Change ``type='user'`` to ``type='system'`` or ``type='iowait'``
+Free space on root disk         | None
+Free space on other disk        | Change ``mount='/'`` to ``mount='/mount-point-of-other-disk'``
+Inbound network bandwidth       | None
+Outbound network bandwidth      | Change ``direction='in'`` to ``direction='out'``
+Average latency of disk reads   | None
+Average latency of disk writes  | Change ``metric='iostat.part.msec_read'`` to ``metric='iostat.part.msec_write'``
 
 5. Above the graph, click {{menuRef:Save Search}} and choose {{menuRef:As Alert}}.
 

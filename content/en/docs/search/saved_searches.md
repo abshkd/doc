@@ -39,20 +39,20 @@ Here is a sample file:
       searches: [
         {
           url: "/events?filter=warn&startTime=24h",
-          title: "Warnings (last 24 hours)"
+         title: "Warnings (last 24 hours)"
         },
         {
           url: "/events?filter=status%3E%3D500",
-          title: "Server errors (status >= 500)"
+         title: "Server errors (status >= 500)"
         },
-        { url: "", title: "" },
+        { url: "",title: "" },
         {
           url: "/dash?page=system&param_serverHost=%27server-1%27",
-          title: "System dashboard: server 1"
+         title: "System dashboard: server 1"
         },
         {
           url: "/dash?page=system&param_serverHost=%27server-2%27",
-          title: "System dashboard: server 2"
+         title: "System dashboard: server 2"
         }
       ]
     }

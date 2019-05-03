@@ -1,5 +1,6 @@
 ---
 title: "RDS Logs"
+notoc: true
 ---
 
 Scalyr can
@@ -7,7 +8,7 @@ continuously import logs from RDS instances, allowing you to perform real-time a
 (RDS logs are retrieved every 60 seconds.)
 
 
-## Prerequisites
+## Before You Start
 
 1. Your database instance should be generating the logs you want to import. The logs should be written
 as files, not database tables.
@@ -87,15 +88,15 @@ example monitors. The section might now look like this:
 
 Fill in the appropriate values for each field:
 
-|||# Field                       ||| Value
-|||# type                        ||| Always ``rdsLog``
-|||# region                      ||| The AWS region in which your database instance is located, e.g. ``us-east-1``
-|||# accessKey                   ||| The Access Key ID you obtained when creating your IAM role.
-|||# secretKey                   ||| The Secret Access Key you obtained when creating your IAM role.
-|||# db                          ||| The name of your RDS database instance, as shown in the Instances list of the RDS console.
-|||# log                         ||| Full path of the log file to import. The example above shows the default paths for MySQL \
+Field                       | Value
+type                        | Always ``rdsLog``
+region                      | The AWS region in which your database instance is located, e.g. ``us-east-1``
+accessKey                   | The Access Key ID you obtained when creating your IAM role.
+secretKey                   | The Secret Access Key you obtained when creating your IAM role.
+db                          | The name of your RDS database instance, as shown in the Instances list of the RDS console.
+log                         | Full path of the log file to import. The example above shows the default paths for MySQL \
                                      error, slow query, and general query logs.
-|||# logAttributes               ||| Specifies fields to attach to the messages imported from this log. You should always specify \
+logAttributes               | Specifies fields to attach to the messages imported from this log. You should always specify \
                                      a ``parser`` field, as shown in the examples above. This allows you to specify how the log \
                                      file should be parsed. The examples above show appropriate values for MySQL error, slow query, \
                                      and general query logs.
@@ -158,11 +159,11 @@ Importing RDS metrics through CloudWatch is also supported with the monitor conf
     ...
 
 Fill in the appropriate values for each field:
-|||# Field                       ||| Value
-|||# namespace                   ||| Always ``AWS/RDS``
-|||# dimensions                  ||| A JSON value to identify the RDS instance. For example, using "DBInstanceIdentifier" and DB instance id (e.g. scalyr-mysql) as the key-value pair
-|||# metric                      ||| List of RDS CloudWatch metrics to import. Note: check what are the available RDS metrics supported for your RDS types, e.g., Aurora, PostgreSQL etc. See [Amazon RDS metrics](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MonitoringOverview.html#rds-metrics)
-|||# statistics                   ||| (optional) Cloudwatch statistic to import. Defaults to "Average" See options in the Amazon RDS Statistics [documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic).
+Field                       | Value
+namespace                   | Always ``AWS/RDS``
+dimensions                  | A JSON value to identify the RDS instance. For example, using "DBInstanceIdentifier" and DB instance id (e.g. scalyr-mysql) as the key-value pair
+metric                      | List of RDS CloudWatch metrics to import. Note: check what are the available RDS metrics supported for your RDS types, e.g., Aurora, PostgreSQL etc. See [Amazon RDS metrics](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/MonitoringOverview.html#rds-metrics)
+statistics                   | (optional) Cloudwatch statistic to import. Defaults to "Average" See options in the Amazon RDS Statistics [documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Statistic).
 
 
 #### Postgres Logs
@@ -210,13 +211,13 @@ box, type ``tag='rdsLogMonitor'`` and click the {{menuRef:Search}} button. Click
 and click on an individual message to see details for that message. If the details page includes an "errorMessage" field, then
 Amazon RDS returned an error when Scalyr attempted to retrieve your logs. Some common error messages:
 
-|||# Cause                       ||| errorMessage
-|||# Incorrect accessKey         ||| Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Cause                       | errorMessage
+Incorrect accessKey         | Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      InvalidClientTokenId, AWS Error Message: The security token included in the request is invalid.
-|||# Incorrect secretKey         ||| Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect secretKey         | Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      SignatureDoesNotMatch, AWS Error Message: The request signature we calculated does not match \
                                      the signature you provided. Check your AWS Secret Access Key and signing method. [etc.]
-|||# Incorrect IAM configuration ||| Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect IAM configuration | Status Code: 403, AWS Service: AmazonRDS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      AccessDenied, AWS Error Message: User: arn:aws:iam::nnnnnnnnnnnn:user/rds-log-reader is not \
                                      authorized to perform: rds:DownloadDBLogFilePortion on resource: [etc.]
 

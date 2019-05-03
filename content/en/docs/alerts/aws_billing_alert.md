@@ -2,7 +2,7 @@
 title: "Alert on AWS Billing Spikes"
 ---
 
-This Solution describes how to use Scalyr to monitor your Amazon AWS usage fees, and notify you if there is an
+This guide describes how to use Scalyr to monitor your Amazon AWS usage fees, and notify you if there is an
 unexpected jump in spending. Amazon's CloudWatch service can notify you if your total bill for a month exceeds a
 specified level, but by the time that happens, damage may already have been done. For instance, if your typical
 spending is $100/day, you might set a CloudWatch alert at $3500. If your usage jumps to $200/day on May 2nd, the
@@ -11,7 +11,7 @@ alert wouldn't fire until May 18th, by which time $1700 in unexpected spending w
 Scalyr can alert you to usage spikes much sooner, before excessive damage is done.
 
 
-## Prerequisites
+## Before You Start
 
 1. Configure Scalyr to [import metrics from Amazon CloudWatch](/solutions/import-cloudwatch). 
 Make sure to include "EstimatedCharges" as one of the metrics to import, as shown in the sample configuration.

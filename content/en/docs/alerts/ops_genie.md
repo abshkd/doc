@@ -4,7 +4,7 @@ title: Alert Using OpsGenie
 
 # Alert Using OpsGenie
 
-This Solution describes how to send Scalyr alert notifications through OpsGenie. When a Scalyr alert is triggered,
+This guide describes how to send Scalyr alert notifications through OpsGenie. When a Scalyr alert is triggered,
 Scalyr will report an incident to OpsGenie. If the alert resolves, Scalyr will mark the OpsGenie incident as resolved.
 You can use OpsGenie for some or all of your Scalyr alerts. You can also choose to have Scalyr send notifications to
 both OpsGenie and a list of e-mail addresses.

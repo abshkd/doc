@@ -4,7 +4,7 @@ title: Alert Using PagerDuty
 
 # Alert Using PagerDuty
 
-This Solution describes how to send Scalyr alert notifications through PagerDuty. When a Scalyr alert is triggered,
+This guide describes how to send Scalyr alert notifications through PagerDuty. When a Scalyr alert is triggered,
 Scalyr will report an incident to PagerDuty. If the alert resolves, Scalyr will mark the PagerDuty incident as resolved.
 You can use PagerDuty for some or all of your Scalyr alerts. You can also choose to have Scalyr send notifications to
 both PagerDuty and a list of e-mail addresses.

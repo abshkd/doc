@@ -23,11 +23,11 @@ permissions: <Permissions>
 
 For each user, you can specify one of the following permission levels:
 
-|||# Name              ||| Meaning
-|||# full              ||| Complete access, except for a few administrative operations (such as billing changes).
-|||# readLog           ||| Can view all data (dashboards, graphs, search, raw metrics and logs, etc.). Can't \
+Name              | Meaning
+full              | Complete access, except for a few administrative operations (such as billing changes).
+readLog           | Can view all data (dashboards, graphs, search, raw metrics and logs, etc.). Can't \
                            edit dashboards, alerts, or other configuration, and can't access API tokens.
-|||# limited           ||| Access only to specific dashboards and log/metric data, as specified by the \
+limited           | Access only to specific dashboards and log/metric data, as specified by the \
                            ``allowedDashboards`` and ``allowedSearch`` fields (see next section).
 
 You specify a user's permissions when adding them to your team. Once you've added a user to your team, you can

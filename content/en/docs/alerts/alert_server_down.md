@@ -8,7 +8,7 @@ problems with a particular piece of software, such as a web server, see other so
 [Alerts](/help/solutions#alerts) section of the Solutions directory.
 
 
-## Prerequisites
+## Before You Start
 
 1. The Scalyr Agent should be installed on the server you want to monitor.
 

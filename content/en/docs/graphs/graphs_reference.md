@@ -43,17 +43,17 @@ functions: <Graph Functions>
 Use the checkboxes **(1)** on the right side of the graph to specify which functions you’d like to plot. You can
 select one function, or many.
 
-||| Function      ||| Value
-||| Average       ||| The average of all values in each time period. For instance, if you are graphing server response times, this will show the average response time.
-||| Minimum       ||| The smallest value in each time period.
-||| Maximum       ||| The largest value in each time period.
-||| Sum/sec       ||| Adds all values in each time period, and divides by the time span. For instance, if you are graphing the response-size field in a web access log, this will give the response bandwidth in bytes per second.
-||| 10th %ile     ||| Shows the 10th percentile of all values in each time period.
-||| 50th %ile     ||| Shows the 50th percentile (median) of all values in each time period.
-||| 90th %ile     ||| Shows the 90th percentile (median) of all values in each time period.
-||| 95th %ile     ||| Shows the 95th percentile (median) of all values in each time period.
-||| 99th %ile     ||| Shows the 99th percentile (median) of all values in each time period.
-||| 99.9th %ile   ||| Shows the 99.9th percentile (median) of all values in each time period.
+| Function      | Value
+| Average       | The average of all values in each time period. For instance, if you are graphing server response times, this will show the average response time.
+| Minimum       | The smallest value in each time period.
+| Maximum       | The largest value in each time period.
+| Sum/sec       | Adds all values in each time period, and divides by the time span. For instance, if you are graphing the response-size field in a web access log, this will give the response bandwidth in bytes per second.
+| 10th %ile     | Shows the 10th percentile of all values in each time period.
+| 50th %ile     | Shows the 50th percentile (median) of all values in each time period.
+| 90th %ile     | Shows the 90th percentile (median) of all values in each time period.
+| 95th %ile     | Shows the 95th percentile (median) of all values in each time period.
+| 99th %ile     | Shows the 99th percentile (median) of all values in each time period.
+| 99.9th %ile   | Shows the 99.9th percentile (median) of all values in each time period.
 
 A percentile is only meaningful if your search matches a large number of events. If there are not enough events to
 compute a percentile, the corresponding checkbox will be disabled.
@@ -118,12 +118,12 @@ To specify a custom time range, use the From **(1b)** and To **(1c)** fields. Th
 
 Examples:
 
-||| Scenario                                          ||| Start                        ||| End
-||| Graph the last hour.                              ||| ``1h`` or ``1 hour``         |||
-||| Graph from 5:23 AM this morning                   ||| ``5:23``                     |||
-||| Graph one hour, beginning at 5:23 AM this morning ||| ``5:23``                     ||| ``+1h``
-||| Graph one hour, beginning at 1:00 PM on April 4th ||| ``April 4 1:00PM``           ||| ``+1 hour``
-||| Graph from three days ago to two days ago         ||| ``3d`` or ``3 days``         ||| ``2d`` or ``2 days``
+| Scenario                                          | Start                        | End
+| Graph the last hour.                              | ``1h`` or ``1 hour``         |||
+| Graph from 5:23 AM this morning                   | ``5:23``                     |||
+| Graph one hour, beginning at 5:23 AM this morning | ``5:23``                     | ``+1h``
+| Graph one hour, beginning at 1:00 PM on April 4th | ``April 4 1:00PM``           | ``+1 hour``
+| Graph from three days ago to two days ago         | ``3d`` or ``3 days``         | ``2d`` or ``2 days``
 
 A wide range of date and time formats are supported. See [Time Syntax Reference](/help/time-reference) 
 for a complete list.

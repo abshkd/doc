@@ -58,11 +58,11 @@ If you wish, you can specify a filename prefix to group logs into multiple direc
 
 You can use the following substitution tokens:
 
-|||# Token              ||| Replacement
-|||# ``{yyyy}``         ||| The four-digit year, e.g. ``2014``
-|||# ``{yy}``           ||| The two-digit year, e.g. ``14``
-|||# ``{mm}``           ||| The two-digit month, e.g. ``04`` for April
-|||# ``{dd}``           ||| The two-digit date, e.g. ``09`` for April 9
+Token              | Replacement
+``{yyyy}``         | The four-digit year, e.g. ``2014``
+``{yy}``           | The two-digit year, e.g. ``14``
+``{mm}``           | The two-digit month, e.g. ``04`` for April
+``{dd}``           | The two-digit date, e.g. ``09`` for April 9
 
 ### Email Notification (optional)
 If you want to know when an batch export process is complete, enter an email address for the notification.

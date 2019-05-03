@@ -86,10 +86,10 @@ The ``columns`` command allows you to display your logs as a table, showing a se
     $logfile='/var/log/access.log'
     | columns timestamp, status, uri
 
-||| timestamp               ||| status  ||| uriPath
-||| Jun 19  8:12:29.000 PM  |||    200  ||| /home
-||| Jun 19  8:12:30.000 PM  |||    200  ||| /about
-||| Jun 19  8:12:33.000 PM  |||    404  ||| /hom
+| timestamp               | status  | uriPath
+| Jun 19  8:12:29.000 PM  |    200  | /home
+| Jun 19  8:12:30.000 PM  |    200  | /about
+| Jun 19  8:12:33.000 PM  |    404  | /hom
 
 
 #### Example: Grouping
@@ -107,12 +107,12 @@ count.
     | sort -total
     | limit 5
 
-||| uriPath            ||| total ||| clientErrors ||| serverErrors
-||| /home              |||  8319 ||| 2            ||| 6
-||| /news              |||  6214 ||| 108          ||| 39
-||| /blog              |||  1125 ||| 31           ||| 0
-||| /login             |||   538 ||| 14           ||| 2
-||| /about             |||   122 ||| 0            ||| 0
+| uriPath            | total | clientErrors | serverErrors
+| /home              |  8319 | 2            | 6
+| /news              |  6214 | 108          | 39
+| /blog              |  1125 | 31           | 0
+| /login             |   538 | 14           | 2
+| /about             |   122 | 0            | 0
 
 
 #### Example: Data Transformation
@@ -129,10 +129,10 @@ This message contains two fields -- the data size, and the elapsed time. Ideall
     "image conversion processed"
     | parse "image conversion processed $size$KB in $time$ seconds"
 
-||| size ||| time
-|||  638 ||| 0.326
-||| 1509 ||| 1.304
-|||  225 ||| 0.038
+| size | time
+|  638 | 0.326
+| 1509 | 1.304
+|  225 | 0.038
 
 Using ``let``, you can then compute statistics such as the KB-per-second processing rate:
 
@@ -140,10 +140,10 @@ Using ``let``, you can then compute statistics such as the KB-per-second process
     | parse "image conversion processed $size$KB in $time$ seconds"
     | let kbPerSec = size / time
 
-||| size ||| time   ||| kbPerSec
-|||  638 ||| 0.326  ||| 1957.055
-||| 1509 ||| 1.304  ||| 1157.209
-|||  225 ||| 0.038  ||| 5921.053
+| size | time   | kbPerSec
+|  638 | 0.326  | 1957.055
+| 1509 | 1.304  | 1157.209
+|  225 | 0.038  | 5921.053
 
 Suppose that sometimes, no processing is needed, resulting in a message like this:
 
@@ -164,8 +164,8 @@ Finally, let's compute some aggregate statistics, including the median and slowe
     | let kbPerSec = size / time
     | group conversions=count(), totalSize=sum(size), medianPerf=median(kbPerSec), slowestPerf=min(kbPerSec) by 1
 
-||| 1 ||| conversions |||  totalSize ||| medianPerf ||| slowestPerf
-||| 1 |||      53,193 ||| 42,163,408 |||   1340.616 |||     138.772
+| 1 | conversions |  totalSize | medianPerf | slowestPerf
+| 1 |      53,193 | 42,163,408 |   1340.616 |     138.772
 
 Grouping ``by 1`` is a trick to put all records in a single group.
 
@@ -178,8 +178,8 @@ distinct IP addresses in your access logs:
     $logfile='/var/log/access.log'
     | group estimate_distinct(ip) by 1
 
-||| 1 ||| estimate_distinct(ip)
-||| 1 ||| 209570
+| 1 | estimate_distinct(ip)
+| 1 | 209570
 
 
 #### Example: Looking Up Customer Names
@@ -226,15 +226,15 @@ corner of the edit box) or typing Command-Enter. You'll see a table containing t
 ## Query Commands
 The following commands are supported:
 
-||| Command               ||| Description
-||| [filter](#filter)     ||| Selects events or records to process
-||| [let](#let)           ||| Performs computations
-||| [parse](#parse)       ||| Extracts fields from log data
-||| [lookup](#lookup)     ||| Retrieves values from a lookup table stored in a configuration file
-||| [group](#group)       ||| Groups events together, and computes summary statistics for each group
-||| [sort](#sort)         ||| Sorts a table
-||| [limit](#limit)       ||| Limits the number of records displayed
-||| [columns](#columns)   ||| Specifies which columns to display, and/or renames columns
+| Command               | Description
+| [filter](#filter)     | Selects events or records to process
+| [let](#let)           | Performs computations
+| [parse](#parse)       | Extracts fields from log data
+| [lookup](#lookup)     | Retrieves values from a lookup table stored in a configuration file
+| [group](#group)       | Groups events together, and computes summary statistics for each group
+| [sort](#sort)         | Sorts a table
+| [limit](#limit)       | Limits the number of records displayed
+| [columns](#columns)   | Specifies which columns to display, and/or renames columns
 
 
 expressions: <Expression Syntax>
@@ -403,23 +403,23 @@ This command aggregates events, grouping them by one or more fields, and computi
 The result is a new table, with one row for each unique combination of the grouping fields, and one column for each
 function (e.g. ``median(latency)``) or grouping field (e.g. ``region``). The following functions are supported:
 
-||| Function            ||| Description
-||| count()             ||| Counts the number of records in the group.
-||| count(expression)   ||| Counts the number of records for which the expression is true / nonzero / nonempty.
-||| sum(expression)     ||| The sum of all inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is 0.
-||| avg(expression)     ||| The average of all inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
-||| min(expression)     ||| The smallest input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
-||| max(expression)     ||| The largest input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
-||| median(expression)  ||| The median input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
-||| pct(NN, expression) ||| A percentile of the inputs, ignoring null, NaN, or non-numeric inputs. NN should be a number from 0 to 100. For instance,\
+| Function            | Description
+| count()             | Counts the number of records in the group.
+| count(expression)   | Counts the number of records for which the expression is true / nonzero / nonempty.
+| sum(expression)     | The sum of all inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is 0.
+| avg(expression)     | The average of all inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
+| min(expression)     | The smallest input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
+| max(expression)     | The largest input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
+| median(expression)  | The median input, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
+| pct(NN, expression) | A percentile of the inputs, ignoring null, NaN, or non-numeric inputs. NN should be a number from 0 to 100. For instance,\
 pct(99.9, latency) yields the 99.9th percentile of the "latency" field. If there are no eligible inputs, the result is NaN.
-||| p10(expression)     ||| The 10th percentile of the inputs.
-||| p50(expression)     ||| The 50th percentile of the inputs. (This is the same as the median.)
-||| p90(expression)     ||| The 90th percentile of the inputs.
-||| p99(expression)     ||| The 99th percentile of the inputs.
-||| p999(expression)    ||| The 99.9th percentile of the inputs.
-||| stddev(expression)  ||| The standard deviation of the inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
-||| estimate_distinct(expression) ||| Estimates the number of distinct values in the group. Null is ignored, but NaN is counted as a value. \
+| p10(expression)     | The 10th percentile of the inputs.
+| p50(expression)     | The 50th percentile of the inputs. (This is the same as the median.)
+| p90(expression)     | The 90th percentile of the inputs.
+| p99(expression)     | The 99th percentile of the inputs.
+| p999(expression)    | The 99.9th percentile of the inputs.
+| stddev(expression)  | The standard deviation of the inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is NaN.
+| estimate_distinct(expression) | Estimates the number of distinct values in the group. Null is ignored, but NaN is counted as a value. \
 Scalyr uses the HyperLogLog algorithm, configured for 1.3% median error, meaning that the result will generally be correct to within 1 or 2 \
 percent, even if there are millions of unique values. If there are a small number of unique values, the result will be exact.
 
@@ -482,41 +482,41 @@ The following functions are supported in expressions (including filter expressio
 
 Numeric functions:
 
-||| Function     ||| Description
-||| abs(x)       ||| The absolute value of x
-||| ceiling(x)   ||| x, rounded up to an integer
-||| floor(x)     ||| x, rounded down to an integer
-||| min(x, y)    ||| The smmaller of x and y
-||| max(x, y)    ||| The larger of x and y
-||| sqrt(x)      ||| The square root of x
-||| exp(x)       ||| The standard exponential function, e^x
-||| ln(x)        ||| The natural (base-e) logarithm of x
-||| log(x)       ||| The base-10 logarithm of x
-||| log(x, y)    ||| The logarithm of x in base y
-||| pow(x, y)    ||| x to the power of y, x^y
+| Function     | Description
+| abs(x)       | The absolute value of x
+| ceiling(x)   | x, rounded up to an integer
+| floor(x)     | x, rounded down to an integer
+| min(x, y)    | The smmaller of x and y
+| max(x, y)    | The larger of x and y
+| sqrt(x)      | The square root of x
+| exp(x)       | The standard exponential function, e^x
+| ln(x)        | The natural (base-e) logarithm of x
+| log(x)       | The base-10 logarithm of x
+| log(x, y)    | The logarithm of x in base y
+| pow(x, y)    | x to the power of y, x^y
 
 String functions:
 
-||| Function         ||| Description
-||| len(x)           ||| The number of characters in x
-||| lower(x)         ||| x, with all letters changed to lowercase
-||| upper(x)         ||| x, with all letters changed to uppercase
-||| ltrim(x)         ||| x, with leading whitespace removed
-||| ltrim(x, y)      ||| x, removing any initial characters which are found in y. For instance, ``ltrim("abbabca", "ab")`` yields ``"ca"``. \
+| Function         | Description
+| len(x)           | The number of characters in x
+| lower(x)         | x, with all letters changed to lowercase
+| upper(x)         | x, with all letters changed to uppercase
+| ltrim(x)         | x, with leading whitespace removed
+| ltrim(x, y)      | x, removing any initial characters which are found in y. For instance, ``ltrim("abbabca", "ab")`` yields ``"ca"``. \
  y must be a string constant, and can only contain ASCII characters.
-||| rtrim(x)         ||| x, with trailing whitespace removed
-||| rtrim(x, y)      ||| x, removing any trailing characters which are found in y. For instance, ``rtrim("acabbab", "ab")`` yields ``"ac"``. \
+| rtrim(x)         | x, with trailing whitespace removed
+| rtrim(x, y)      | x, removing any trailing characters which are found in y. For instance, ``rtrim("acabbab", "ab")`` yields ``"ac"``. \
  y must be a string constant, and can only contain ASCII characters.
-||| trim(x)          ||| x, with leading and trailing whitespace removed
-||| trim(x, y)       ||| x, removing any leading or trailing characters which are found in y. For instance, ``trim("abcabcabc", "ab")`` yields ``"cabc"``. \
+| trim(x)          | x, with leading and trailing whitespace removed
+| trim(x, y)       | x, removing any leading or trailing characters which are found in y. For instance, ``trim("abcabcabc", "ab")`` yields ``"cabc"``. \
  y must be a string constant, and can only contain ASCII characters.
-||| substr(x, y)     ||| A copy of x, with the first y characters removed. If y is greater than the length of x, the result is an empty string.
-||| substr(x, y, z)  ||| z characters of x, starting at position y. If y is greater than the length of x, the result is an empty string. If \
+| substr(x, y)     | A copy of x, with the first y characters removed. If y is greater than the length of x, the result is an empty string.
+| substr(x, y, z)  | z characters of x, starting at position y. If y is greater than the length of x, the result is an empty string. If \
 z is greater than the number of characters after position y, then the entire string starting at position y is returned.
-||| replace(x, y, z) ||| x, with all matches for y replaced by z. y and z must be string constants: y specifies a regular expression, \
+| replace(x, y, z) | x, with all matches for y replaced by z. y and z must be string constants: y specifies a regular expression, \
 and z is a simple string. Matching is not case sensitive. y cannot be empty. NOTE: reference groups are not supported in the replacement string.
-||| isempty(x)       ||| True if x is null or an empty string.
-||| isblank(x)       ||| True if x is null, an empty string, or contains only whitespace.
+| isempty(x)       | True if x is null or an empty string.
+| isblank(x)       | True if x is null, an empty string, or contains only whitespace.
 
 
 dashboards: <Dashboards>
@@ -534,7 +534,7 @@ You can use the ``+`` operator to split the query across multiple lines. For exa
     {
       graphs: [
         {
-          title: "Top 5 Paths by Error Count",
+         title: "Top 5 Paths by Error Count",
           query: "$logfile contains 'access' " +
                  "| group total = count(), errors = count(status >= 500 && status <= 599) by uriPath " +
                  "| sort -total " +

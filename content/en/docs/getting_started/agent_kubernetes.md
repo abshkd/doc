@@ -135,127 +135,128 @@ The Scalyr Agent will automatically use the following for that pod's log_config
 
 You can add a custom parser to a pod in a Kubernetes cluster. You can read more about applying parsers to the Scalyr Agent [here](/help/scalyr-agent#logUpload).
 
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     log.config.scalyr.com/attributes.parser: accessLog
-
-Via the CLI
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/attributes.parser=custom-parser
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
         annotations:
           "log.config.scalyr.com/attributes.parser": "custom-parser"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
 
 
 ## Excluding Logs
 
 If you would like to prevent a pod from streaming logs to Scalyr, you can specifically exclude (or include) them.
 
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     log.config.scalyr.com/include:  false
     log.config.scalyr.com/exclude:  true
-
-Via the CLI
-
-Command line configuration of log exclusion is not supported.
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
+&nbsp;&nbsp;*Command line configuration of log exclusion is not supported.*
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
        annotations:
           "log.config.scalyr.com/exclude": "true/false"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
+
 
 
 ## Sampling High Volume Logs
 
 You can read more about log sampling [here](/help/scalyr-agent#filter).
 
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     log.config.scalyr.com/sampling_rules.0.match_expression: INFO
     log.config.scalyr.com/sampling_rules.0.sampling_rate: 0.1
     log.config.scalyr.com/sampling_rules.1.match_expression: FINE
     log.config.scalyr.com/sampling_rules.1.sampling_rate: 0
-
-Via the CLI
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.0.match_expression=INFO
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.0.sampling_rate=0.1
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.1.match_expression=FINE
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/sampling_rules.1.sampling_rate=0
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
        annotations:
           "log.config.scalyr.com/sampling_rules.0.match_expression": "INFO",
           "log.config.scalyr.com/sampling_rules.0.sampling_rate": "0.1",
           "log.config.scalyr.com/sampling_rules.1.match_expression": "FINE",
           "log.config.scalyr.com/sampling_rules.1.sampling_rate": "0"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
 
 ## Attributes
 
 You can specify additional fields in attributes. This allows you to distinguish between different pods. For instance, you might give the pod a field like service: "database" to identify the service that generates this log; you could then add $service = "database" to any query to search only your database logs.
 
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     log.config.scalyr.com/attributes.key: value
-
-Via the CLI
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/attributes.key=value
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
        annotations:
           "log.config.scalyr.com/attributes.key": "value"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
 
 ## Redaction/Scrubbing Rules
 
-Here is an example stanza to define redaction rules (more on [log redaction](/help/scalyr-agent#filter)):
-
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     "log.config.scalyr.com/redaction_rules.match_expression": "password=[^& ]*"
     "log.config.scalyr.com/redaction_rules.replacement": "userInfo=\\1"
-
-Via CLI
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/redaction_rules.0.match_expression=password=[^& ]*
     kubectl annotate pod <pod name> --overwrite log.config.scalyr.com/redaction_rules.0.replacement=userInfo=\\1
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
        annotations:
           "log.config.scalyr.com/redaction_rules.0.match_expression": "password=[^& ]*"
           "log.config.scalyr.com/redaction_rules.0.replacement": "userInfo=\\1"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
+
+More on [log redaction](/help/scalyr-agent#filter).
 
 ## Renaming
 
 You can rename your log file(s) before they are uploaded to the Scalyr servers (more on [renaming log files](/scalyr-agent#logFileRenaming)).
 
-Via Annotation
-
+{{% code-tabs %}}
+   {{% code-tab "Annotation" %}}
     log.config.scalyr.com/path=/from_path/from_name.log
     log.config.scalyr.com/rename_logfile=/to_path/to_name.log
-
-Via CLI
-
+   {{% /code-tab %}}
+   {{% code-tab "CLI" %}}
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/path=/from_path/from_name.log
     kubectl annotate pod <pod-name> --overwrite log.config.scalyr.com/rename_logfile=/to_path/to_name.log
-
-Via YAML
-
+   {{% /code-tab %}}
+   {{% code-tab "YAML" %}}
     metadata:
        annotations:
            "log.config.scalyr.com/path": "/from_path/from_name.log"
            "log.config.scalyr.com/rename_logfile": "/to_path/to_name.log"
+   {{% /code-tab %}}
+{{% /code-tabs %}}
            
 
 ## Not Supported

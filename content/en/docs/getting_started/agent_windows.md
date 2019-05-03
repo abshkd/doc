@@ -9,8 +9,7 @@ To run the agent on Linux or a container service, see the specific guides to the
 beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr/scalyr-agent-2) that uploads logs and system metrics to Scalyr."
 ---
 
-
-## Installation Steps
+## Installing the Agent
 
 
 1.  Download the [[[agentDownloadLink("win32", "Windows Installer")]]]
@@ -53,22 +52,3 @@ The agent will notice any configuration file changes within 30 seconds without t
 
 This will open a console window with the message ``"The agent has started"`` if the agent has been
 successfully started.  You may close the console window at any time; it does not stop the agent.
-
-## Changing reported hostname
-
-By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
-like "ip-12-23-34-45", you can [specify a different name](/help/scalyr-agent#hostname).
-
-## That's It!
-
-Hopefully, that was easy. If you've had any trouble, please [let us know](mailto:support@scalyr.com).
-Otherwise, if this is your first time using Scalyr, this would be an excellent time to head on to the
-[Getting Started guide](/help/getting-started).
-
-If you're using any log formats other than ``accessLog``, you should first pop over to the
-[Log Parsing](/help/parsing-logs) page to set up a parser.
-
-For complete documentation, see the [agent reference](/help/scalyr-agent). Here you can learn
-how to download the agent directly (instead of using our package repository), get tips for
-installing via a tool like Chef or Puppet, find troubleshooting tips, and more.
-

@@ -1,105 +1,76 @@
 ---
-title: "More Data Sources"
-weight: 22
+title: "Other Logs & Metrics"
+weight: 21
 notoc: true
 ---
+
+These data sources are all available to Scalyr via Agent Plugins:
 
 
 <div class="logo-cloud">
   <a href="/help/monitors/apache">
-        <img src="https://www.scalyr.com/s2/src/img/logo-apache.png"/><br/>
+        <img src="/img/logo-apache.png"/><br/>
         <span>Apache</span>
     </a>
   <a href="/help/monitors/docker-monitor">
-        <img src="https://www.scalyr.com/s2/src/img/logo-docker.png"/><br/>
+        <img src="/img/logo-docker.png"/><br/>
         <span>Docker</span>
     </a>
-  <a href="/help/data-sources#graphite">
-        <img src="https://www.scalyr.com/s2/src/img/logo-graphite.png"/><br/>
-        <span>Graphite</span>
-    </a>
-  <a href="/help/data-sources#heroku">
-        <img src="https://www.scalyr.com/s2/src/img/logo-heroku.png"/><br/>
-        <span>Heroku</span>
-    </a>
   <a href="/help/monitors/url">
-        <img src="https://www.scalyr.com/s2/src/img/logo-http.png"/><br/>
+        <img src="/img/logo-http.png"/><br/>
         <span>HTTP</span>
     </a>
   <a href="/help/monitors/linux-system-metrics">
-        <img src="https://www.scalyr.com/s2/src/img/logo-linux.png"/><br/>
+        <img src="/img/logo-linux.png"/><br/>
         <span>Linux</span>
     </a>
   <a href="/help/monitors/mysql">
-        <img src="https://www.scalyr.com/s2/src/img/logo-mysql.png"/><br/>
+        <img src="/img/logo-mysql.png"/><br/>
         <span>MySQL</span>
     </a>
   <a href="/help/monitors/nginx">
-        <img src="https://www.scalyr.com/s2/src/img/logo-nginx.png"/><br/>
+        <img src="/img/logo-nginx.png"/><br/>
         <span>NGINX</span>
     </a>
   <a href="/help/monitors/postgres">
-        <img src="https://www.scalyr.com/s2/src/img/logo-postgres.png"/><br/>
+        <img src="/img/logo-postgres.png"/><br/>
         <span>Postgres</span>
     </a>
   <a href="/help/monitors/redis-monitor">
-        <img src="https://www.scalyr.com/s2/src/img/logo-redis.png"/><br/>
+        <img src="/img/logo-redis.png"/><br/>
         <span>Redis</span>
     </a>
   <a href="/help/monitors/snmp">
-        <img src="https://www.scalyr.com/s2/src/img/logo-snmp.png"/><br/>
+        <img src="/img/logo-snmp.png"/><br/>
         <span>SNMP</span>
     </a>
-  <a href="/help/monitors/syslog-monitor">
-        <img src="https://www.scalyr.com/s2/src/img/logo-syslog.png"/><br/>
-        <span>Syslog</span>
-    </a>
   <a href="/help/monitors/windows-system-metrics">
-        <img src="https://www.scalyr.com/s2/src/img/logo-windows.png"/><br/>
+        <img src="/img/logo-windows.png"/><br/>
         <span>Windows</span>
     </a>
 </div>
 
-Scalyr is designed to let you work with any monitoring data -- not just logs or system metrics --
-in one place:
+## More Data Sources
 
-- **System metrics** are automatically uploaded when you install the [Scalyr Agent](/help/scalyr-agent).
+<style>
+thead>tr {display:none}
+</style>
 
-- **Log files** are also covered in the Scalyr Agent installation instructions. You can upload web access logs,
-  system logs, app server logs, and more.
+Besides plugins, there are a few other data sources that are configured differently:
 
-- If you use **MySQL**, **PostgreSQL**, **Apache**, or **nginx**, install the corresponding [Scalyr Agent Plugin](/help/agent-plugins) to
-  gather performance and usage data.
 
-- The agent can also provide **Process metrics** (per-process resource usage). See the
-  [Linux Process Metrics](/help/monitors/linux-process-metrics) page for instructions.
+|  |  |  |  |
+|:---:|----|-------|-----------------|
+| <img src="/img/logo-graphite.png" style="height: 24px" align="absmiddle"/>| Graphite | set up the agent to act as a Graphite server | [see below](#graphite) |
+| <img src="/img/logo-heroku.png" style="height: 24px" align="absmiddle"/>| Heroku / AppHarbor | create a Heroku drain to import securely | [see below](#heroku-and-appharbor) |
+| <img src="/img/logo-syslog.png" style="height: 24px" align="absmiddle"/>| Syslog | set up the agent to act as a Syslog server | [see below](#syslog) | 
+| <img src="/img/logo-log4j.png" style="height: 24px" align="absmiddle"/>| log4j | use log4j to send logs directly to Scalyr | [Logback Appender](https://github.com/scalyr/scalyr-logback) |
+| <img src="/img/logo-dotnet.png" style="height: 24px" align="absmiddle"/>| .NET | log structured data from .NET applications | [Serilog](https://serilog.net/),  [Scalyr sink](https://www.nuget.org/packages/Serilog.Sinks.Scalyr) | 
+| <img src="/img/logo-s3-bucket.png" style="height: 24px" align="absmiddle"/>|   S3 bucket | use a monitor to pull in logs | [Import Logs via S3 Buckets](/docs/aws/s3_logs/) |
 
-- If you use **Amazon Web Services**, you can import [CloudWatch metrics](/solutions/import-cloudwatch),
-  [CloudTrail logs](/solutions/import-cloudtrail), 
-  [CloudFront logs](/solutions/import-cloudfront),
-  [CloudWatch logs](https://github.com/scalyr/cloudwatch2scalyr),
-  [ELB access logs](/solutions/import-elb-access-logs), 
-  [S3 bucket access logs](/solutions/import-s3-bucket-logs),
-  [Redshift audit logs](/solutions/import-redshift-logs), 
-  [EC2 spot instance data feeds](/solutions/import-spot-instance-data),
-  [other log files in S3](/solutions/import-logs-from-s3), and 
-  [RDS database logs](/solutions/import-rds-logs) (e.g. slow query logs).
-
-- **Heroku** and **AppHarbor** users can import logs securely using a [Logplex drain](#heroku).
-
-- For **Graphite** based tools, the Scalyr Agent can masquerade as a Graphite server. See the [Graphite Relay](#graphite)
-  section for instructions.
-
-- For applications or devices that use **Syslog** to transmit logs, the [Scalyr Agent can act as a Syslog server](#syslog).
-
-- Use the HTTP-based [Scalyr API](/help/api) or our [Java API](/help/java-api) 
-  to build your own custom integrations.  From Java, we also provide a [logback](http://logback.qos.ch/) appender, 
-  allowing any log4j or logback-based code to send logs directly to Scalyr. See https://github.com/scalyr/scalyr-logback 
-  for instructions.
-
-- To log structured data directly from .NET applications, you can also use [Serilog](https://serilog.net/) in
-  conjunction with the [Scalyr sink](https://www.nuget.org/packages/Serilog.Sinks.Scalyr).
-
+### Custom Integrations
+Use the HTTP-based [Scalyr API](/help/api) or our [Java API](/help/java-api) 
+  to build your own custom integrations.  
 
 ## Syslog
 

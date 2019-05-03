@@ -1,5 +1,5 @@
 ---
-title: "Monitor Services"
+title: "Monitoring Services"
 weight: 40
 ---
 

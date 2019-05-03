@@ -115,23 +115,23 @@ graphFunctions: <Graph Functions>
 By default, the graph view will show the average (mean) value of the field you specify in the
 Variable box. You can graph a different function by replacing the field name with an expression:
 
-|||# Function                 ||| Meaning
-|||# ``mean(value)``          ||| Average (the same as if no function is used)
-|||# ``min(value)``           ||| Smallest value
-|||# ``max(value)``           ||| Largest value
-|||# ``sumPerSecond(value)``  ||| Total value across all events, divided by elapsed time. For instance, if you \
+Function                 | Meaning
+``mean(value)``          | Average (the same as if no function is used)
+``min(value)``           | Smallest value
+``max(value)``           | Largest value
+``sumPerSecond(value)``  | Total value across all events, divided by elapsed time. For instance, if you \
                                   have a field ``responseSize`` which records the number of bytes returned by some \
                                   operation, then ``sumPerSecond(responsesize)`` will graph the bandwidth consumed \
                                   by this operation, in bytes per second.
-|||# ``median(value)``        ||| The median (50th percentile) value.
-|||# ``p10(value)``           ||| The 10th percentile value.
-|||# ``p50(value)``           ||| The 50th percentile value.
-|||# ``p90(value)``           ||| The 90th percentile value.
-|||# ``p95(value)``           ||| The 95th percentile value.
-|||# ``p99(value)``           ||| The 99th percentile value.
-|||# ``p999(value)``          ||| The 99.9th percentile value.
-|||# ``p(value, n)``          ||| The Nth percentile value. For instance, ``p(value, 80)`` gives the 80th percentile.
-|||# ``fraction(expr)``       ||| The fraction (from 0 to 1) of events which match the given expression. For instance, \
+``median(value)``        | The median (50th percentile) value.
+``p10(value)``           | The 10th percentile value.
+``p50(value)``           | The 50th percentile value.
+``p90(value)``           | The 90th percentile value.
+``p95(value)``           | The 95th percentile value.
+``p99(value)``           | The 99th percentile value.
+``p999(value)``          | The 99.9th percentile value.
+``p(value, n)``          | The Nth percentile value. For instance, ``p(value, 80)`` gives the 80th percentile.
+``fraction(expr)``       | The fraction (from 0 to 1) of events which match the given expression. For instance, \
                                   ``fraction(status >= 500 status <= 599)`` is the fraction of requests which have a \
                                   status in the 5xx range. You can use any query expression, as documented in the earlier \
                                   sections of this page.

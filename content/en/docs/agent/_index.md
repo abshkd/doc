@@ -70,15 +70,15 @@ standardParsers:
 Scalyr includes a suite of standard log parsers. If your log matches one of the following formats, use the corresponding
 parser name and your logs will be parsed automatically.
 
-|||# Parser                    ||| Log format
-|||# ``accessLog``             ||| Standard web access logs ("extended" Apache format)
-|||# ``mysqlGeneralQueryLog``  ||| MySQL "general" query log
-|||# ``mysqlSlowQueryLog``     ||| MySQL slow query log
-|||# ``postgresLog``           ||| Postgres log
-|||# ``json``                  ||| Logs where each line is a JSON object
-|||# ``keyValue``              ||| Logs containing fields in the form key=value or key="value"
-|||# ``systemLog``             ||| Supports several common system or error log formats
-|||# ``leveldbLog``            ||| LevelDB LOG files
+Parser                    | Log format
+``accessLog``             | Standard web access logs ("extended" Apache format)
+``mysqlGeneralQueryLog``  | MySQL "general" query log
+``mysqlSlowQueryLog``     | MySQL slow query log
+``postgresLog``           | Postgres log
+``json``                  | Logs where each line is a JSON object
+``keyValue``              | Logs containing fields in the form key=value or key="value"
+``systemLog``             | Supports several common system or error log formats
+``leveldbLog``            | LevelDB LOG files
 
 You can specify additional fields in ``attributes``. This allows you to distinguish between different log files
 from the same server. For instance, you might give the file a field like ``service: "memcache"`` to identify
@@ -280,10 +280,10 @@ You can specify multiple files with wildcards:
 
 A full list of these directives:
 
-||| Variables              ||| Meaning                                                                ||| Example
-||| $BASENAME              ||| The file name portion of the log file including the file extension    ||| /scalyr/$BASENAME will upload the file /var/log/foo.log as /scalyr/foo.log   
-||| $BASENAME_NO_EXT       ||| The file name portion of the log file excluding the file extension    ||| /scalyr/$BASENAME_NO_EXT will upload the file /var/log/foo.log as /scalyr/foo
-||| $PATH[n]               ||| The 'n'th section of the file path                            ||| /scalyr/$PATH1/$BASENAME will upload the file /var/log/foo.log as /scalyr/log/foo.log
+| Variables              | Meaning                                                                | Example
+| $BASENAME              | The file name portion of the log file including the file extension    | /scalyr/$BASENAME will upload the file /var/log/foo.log as /scalyr/foo.log   
+| $BASENAME_NO_EXT       | The file name portion of the log file excluding the file extension    | /scalyr/$BASENAME_NO_EXT will upload the file /var/log/foo.log as /scalyr/foo
+| $PATH[n]               | The 'n'th section of the file path                            | /scalyr/$PATH1/$BASENAME will upload the file /var/log/foo.log as /scalyr/log/foo.log
                                      
 
 ### rename_logfile as JSON object:

@@ -2,8 +2,6 @@
 title: "Log Parsers"
 ---
 
-# Log Parsers
-
 Most logs have some sort of structure. For instance, a web access log specifies URI, user agent, referrer,
 IP address, and other fields for each entry. Scalyr uses parsers to extract these fields.
 

@@ -5,7 +5,7 @@ title: Alert On Log Messages
 How to generate a notification when a particular message (such as an error message) appears in your logs.
 
 
-## Prerequisites
+## Before You Start
 
 1. The Scalyr Agent should be installed on the server(s) you want to monitor, and should be configured
 to upload the log file(s) you want to search.

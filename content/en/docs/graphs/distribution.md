@@ -26,12 +26,12 @@ reference: <Quick Reference>
 **(1)** To search for a specific word or phrase, type it here. This determines which log messages are reflected in the
 distribution. Numbers, punctuation, or phrases must be enclosed in quotes. Sample searches:
 
-||| Search              ||| Meaning
-||| ``error``           ||| To search for a word or part of a word, just type it
-||| ``"/blog"``         ||| Punctuation must be enclosed in quotes
-||| ``"customer 1309"`` ||| Multi-word phrases must also be enclosed in quotes
-||| ``userId = 1309``   ||| Matching on a parsed field
-||| ``time > 0.5``      ||| Numeric comparison on a parsed field
+| Search              | Meaning
+| ``error``           | To search for a word or part of a word, just type it
+| ``"/blog"``         | Punctuation must be enclosed in quotes
+| ``"customer 1309"`` | Multi-word phrases must also be enclosed in quotes
+| ``userId = 1309``   | Matching on a parsed field
+| ``time > 0.5``      | Numeric comparison on a parsed field
 
 See [Query Language Reference](/help/query-reference) for a full description of the 
 Scalyr query language.

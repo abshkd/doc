@@ -4,7 +4,7 @@ title: Alert Using Slack
 
 # Alert Using Slack
 
-This Solution describes how to send Scalyr alert notifications through Slack. When a Scalyr alert is triggered or
+This guide describes how to send Scalyr alert notifications through Slack. When a Scalyr alert is triggered or
 resolves, Scalyr will send a message to a Slack channel. You can use Slack for some or all of your Scalyr alerts.
 You can also choose to have Scalyr send notifications to both Slack and a list of e-mail addresses or other
 recipients.

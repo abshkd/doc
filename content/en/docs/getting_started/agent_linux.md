@@ -8,7 +8,7 @@ beforetoc: "The Scalyr Agent is a [open source daemon](https://github.com/scalyr
 weight: 50
 ---
 
-## Installing the Scalyr Agent Package
+## Installing the Agent
 
 1. Install the scalyr-agent-2 package:
 
@@ -37,52 +37,40 @@ only letters, digits, spaces, underscores, and hyphens).
 
 After you edit the configuration file, the agent will begin copying the specified logs within 30 seconds.
 
-## Running under a non-root account
-If you'd prefer not to run the agent as root, you can specify any user that has read access to your
-logs. Execute this command, substituting the appropriate user name:
-
-    sudo scalyr-agent-2-config --set-user ***username***
-
-You will need to restart the agent to have the change take effect.
-
-    sudo scalyr-agent-2 restart
-
-## Changing reported hostname
-
-By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
-like "ip-12-23-34-45", you can [specify a different name](/help/scalyr-agent#hostname).
-
-## Installing without the script
+## Installing Other Ways
 
 If you are installing the Scalyr Agent automatically using a tool like Chef or Puppet, you may wish to bypass our one-step
 installation script and invoke ``yum`` or ``apt-get`` directly.
 
-installByYum:
-For systems that use ``yum`` (except CentOS 5 or RHEL5), execute these instructions:
+{{% code-tabs %}}
 
+   {{% code-tab "yum" %}}
     wget -q https://www.scalyr.com/scalyr-repo/stable/latest/scalyr-repo-bootstrap-[[[repoVersion]]]-1.noarch.rpm
     sudo yum remove scalyr-repo scalyr-repo-bootstrap  # Remove any previous repository definitions, if any.
     sudo yum install --nogpgcheck scalyr-repo-bootstrap-[[[repoVersion]]]-1.noarch.rpm
     sudo yum install scalyr-repo 
     sudo yum install scalyr-agent-2
+   {{% /code-tab %}}
 
-installByApt:
-For systems that use ``apt-get``, execute these instructions:
-
+   {{% code-tab "apt-get" %}}
     wget -q https://www.scalyr.com/scalyr-repo/stable/latest/scalyr-repo-bootstrap_[[[repoVersion]]]_all.deb
     sudo dpkg -r scalyr-repo scalyr-repo-bootstrap  # Remove any previous repository definitions, if any.
     sudo dpkg -i scalyr-repo-bootstrap_[[[repoVersion]]]_all.deb
     sudo apt-get update
     sudo apt-get install scalyr-repo
     sudo apt-get install scalyr-agent-2
+   {{% /code-tab %}}
 
-For older distributions such as CentOS 5 or RHEL5, execute these instructions:
-
+   {{% code-tab "CentOS 5 / RHEL5" %}}
     wget -q https://www.scalyr.com/scalyr-repo/stable/latest/scalyr-repo-bootstrap-[[[repoVersion]]]-1.alt.noarch.rpm
     sudo yum remove scalyr-repo scalyr-repo-bootstrap  # Remove any previous repository definitions, if any.
     sudo yum install --nogpgcheck scalyr-repo-bootstrap-[[[repoVersion]]]-1.alt.noarch.rpm
     sudo yum install scalyr-repo 
     sudo yum install scalyr-agent-2
+   {{% /code-tab %}}
+
+{{% /code-tabs %}}
+
 
 Now that you have installed the scalyr-agent-2 package, you need to configure it using your Write Logs API key[[[andScalyrServerIfNecessary]]].
 
@@ -95,7 +83,6 @@ Finally, you can start the agent:
 Then follow the regular setup instructions to configure log uploading and other agent features.
 
 
-tarball: <Tarball>
 ## Tarball Installation
 
 If you'd prefer not to use a package manager, you can download and install the agent via a simple tarball:

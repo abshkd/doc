@@ -1,5 +1,5 @@
 ---
-title: "The Scalyr API & CLI"
+title: "API & CLI"
 ---
 
 You can use the Scalyr API to send and retrieve log data directly from Scalyr servers, as well as manage

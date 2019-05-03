@@ -27,25 +27,25 @@ bar, and choose "Configuration". Then click on any file name to view or edit tha
 
 You may see the following files listed:
 
-|||# Name                         ||| Use
-|||# /dashboards/Foo              ||| Defines the "Foo" dashboard. There may be any number of dashboard \
+Name                         | Use
+/dashboards/Foo              | Defines the "Foo" dashboard. There may be any number of dashboard \
                                       files. Note that some dashboards, like System, are built in to the \
                                       Scalyr service and won't be listed here. If you customize a built-in \
                                       dashboard, your customized version will appear in the list.
-|||# /example                     ||| A simple example file, created automatically when you create your account.
-|||# /logParsers/foo              ||| Rules for parsing log files tagged with ``parser: foo``. There may be any \
+/example                     | A simple example file, created automatically when you create your account.
+/logParsers/foo              | Rules for parsing log files tagged with ``parser: foo``. There may be any \
                                       number of parser files. Note that some parsers, like webAccess, are built \
                                       in to the Sclyr service and won't be listed here. If you customize a \
                                       built-in parser, your customized version will appear in the list.
-|||# /datatables/foo              ||| A data table for use with the ``lookup`` command in a PowerQuery. \
+/datatables/foo              | A data table for use with the ``lookup`` command in a PowerQuery. \
                                       See [Lookup Command](/help/power-queries#lookup).
-|||# /scalyr/alerts               ||| Lists all [alerting rules](/help/alerts).
-|||# /scalyr/searches             ||| Lists all [shared searches](/help/saved-searches#shared).
-|||# /scalyr/logs                 ||| Can be used to give additional users permission to access \
+/scalyr/alerts               | Lists all [alerting rules](/help/alerts).
+/scalyr/searches             | Lists all [shared searches](/help/saved-searches#shared).
+/scalyr/logs                 | Can be used to give additional users permission to access \
                                       your account (see [Multiple Users](/help/users)), or to set up linking \
                                       from search results (see [View Logs](/help/view)).
-|||# /scalyr/monitors             ||| Lists all [HTTP monitors](/help/monitors).
-|||# /foo_example.com/searches   ||| Lists all personal [saved searches](/help/saved-searches).
+/scalyr/monitors             | Lists all [HTTP monitors](/help/monitors).
+/foo_example.com/searches   | Lists all personal [saved searches](/help/saved-searches).
 
 
 json: <Scalyr JSON>

@@ -11,7 +11,7 @@ For unique or non-interchangable servers, such as database servers, it is genera
 alert when an individual server goes down. See [Set Alert on Server Down](/solutions/alert-server-down).
 
 
-## Prerequisites
+## Before You Start
 
 1. The Scalyr Agent should be installed on each server you want to monitor.
 

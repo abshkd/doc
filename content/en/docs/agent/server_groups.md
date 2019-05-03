@@ -2,13 +2,11 @@
 title: "Manage Groups of Servers"
 ---
 
-# Manage Groups of Servers
-
-This Solution describes how to organize your servers into groups. Use server groups to aggregate logs
+This guide describes how to organize your servers into groups. Use server groups to aggregate logs
 for searching, generate graphs or trigger alerts based on the behavior of multiple servers, and more.
 
 
-## Prerequisites
+## Before You Start
 
 1. The Scalyr Agent should be installed on each server you want to monitor.
 

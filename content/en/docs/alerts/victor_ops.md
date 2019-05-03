@@ -2,7 +2,7 @@
 title: "Alert Using VictorOps"
 ---
 
-This Solution describes how to send Scalyr alert notifications through VictorOps. When a Scalyr alert is triggered or
+This guide describes how to send Scalyr alert notifications through VictorOps. When a Scalyr alert is triggered or
 resolves, Scalyr will trigger an event to VictorOps. You can use VictorOps for some or all of your Scalyr alerts.
 You can also choose to have Scalyr send notifications to both VictorOps and a list of e-mail addresses or other
 recipients.

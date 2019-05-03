@@ -1,4 +1,4 @@
 ---
-title: "Export & Share"
+title: "Exporting & Sharing"
 weight: 24
 ---

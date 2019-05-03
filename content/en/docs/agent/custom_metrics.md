@@ -2,9 +2,7 @@
 title: "Custom Metrics"
 ---
 
-# Custom Metrics
-
-This Solution describes how to log custom metrics from your application code. You can log simple metrics, or complex multi-field
+This guide describes how to log custom metrics from your application code. You can log simple metrics, or complex multi-field
 events, with equal ease. Then use your metrics for searching, graphing, alerting, and more.
 
 

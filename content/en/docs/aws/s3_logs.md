@@ -1,11 +1,12 @@
 ---
 title: "Import Logs via S3 Buckets"
+notoc: true
 ---
 
 Unlike the other guides in this section, this one describes how to import log files which are deposited in an Amazon S3 bucket.
 
 
-## Prerequisites
+## Before You Start
 
 1. Set up an S3 bucket in which you periodically deposit log files. It's best to add a new file every few minutes.
 If you use longer batches (e.g. one file per hour), that imposes a delay on the logs showing up in Scalyr.
@@ -18,17 +19,18 @@ used to read this bucket and queue. For instructions, see the section [Create IA
 
 ## Steps
 
-Scalyr uses "monitors" to fetch data from other services. These steps will guide you through creating a monitor to
+Scalyr offers a monitoring service that can continually fetch data via HTTP. These steps will guide you through creating a monitor to
 fetch log files from an S3 bucket.
 
-1. From the navigation bar, click {{menuRef:Dashboards}}, and select {{menuRef:Monitors}}.
+1. Click Dashboards &gt; Monitors &lpar;or just go to [/monitors](/monitors)&rpar;.
 
-2. Click {{menuRef:Edit Monitors}} to open the monitors configuration file.
+2. Click Settings &gt; Edit Monitors  to open the monitors configuration file.
 
 3. Find the ``monitors`` section of the configuration file. If you have never edited this file before,
 the monitors section will look like this:
 
-      monitors: [
+     ```
+     monitors: [
         // {
         //   type:        \"http\",
         //   url:         \"http://www.example.com/foo?bar=1\"
@@ -37,10 +39,12 @@ the monitors section will look like this:
         //   type:        \"http\",
         //   url:         \"http://www.example.com/foo?bar=1\"
         // }
-      ]
+     ]
+     ```
 
 4. Add a stanza for the SQS queue you created earlier. The section might now look like this:
 
+     ```
       monitors: [
         {
           type: "s3Bucket",
@@ -53,49 +57,46 @@ the monitors section will look like this:
           parser: "foo"
         }
       ]
+     ```
+   See [Field Values](#field-values) below for what to fill in these.
+   
+5. Save your changes, and Scalyr should begin checking for new data batches once per minute.
 
-Fill in the appropriate values for each field:
+6. Wait for the initial batch of log data to be retrieved. It can take anywhere from minutes to hours for Amazon to publish the
+first batch.
 
-|||# Field                       ||| Value
-|||# type                        ||| Always ``s3Bucket``.
-|||# region                      ||| The AWS region in which your SQS queue is located, e.g. ``us-east-1``.
-|||# s3Region                    ||| The AWS region in which your S3 bucket instance is located, e.g. ``us-east-1``. \
-                                     You can omit this unless it is different than ``region``.
-|||# accessKey                   ||| The Access Key ID you obtained when creating your IAM role.
-|||# secretKey                   ||| The Secret Access Key you obtained when creating your IAM role.
-|||# queueUrl                    ||| The name of the SQS queue to which your bucket sends new-object notices.
-|||# fileFormat                  ||| ``text_gzip`` if each file is compressed using gzip, ``text`` if not compressed.
-|||# objectKeyFilter             ||| Optional. If you specify a value, then S3 objects are ignored unless their name \
-                                     (object key) contains this substring. If you have multiple logs being published \
-                                     to the same S3 bucket, use this option to select the appropriate subset.
-|||# hostname                    ||| The server name under which your bucket access logs will appear in the Overview page.
-|||# logfile                     ||| The file name under which your bucket access log will appear in the Overview page.
-|||# parser                      ||| Name of a parser to apply to these logs.
-|||# logAttributes               ||| Specifies extra fields to attach to the messages imported from this log. Optional.
+7. To verify the new monitor, go to the Scalyr homepage. In the list of servers, you should see an entry named according to the
+``hostname`` you specified in the monitor configuration with a link to your bucket access logs.
 
-If you don't have the Access Key ID and Secret Access Key for your IAM role account, you can generate a new key. From the AWS console,
-go to the IAM service and select the IAM account you're using for bucket access log import. Choose the "Security Credentials" tab, click
-Manage Access Keys, and then click Create Access Key. This will allow you to generate a new Access Key ID / Secret Access Key pair.
 
-Don't use credentials from your primary AWS account; always use an IAM role account with limited permissions. If
+## Field Values
+
+
+Field                       | Value
+---|---
+type                        |  ``s3Bucket``
+region                      | The AWS region in which your SQS queue is located, e.g. ``us-east-1``.
+s3Region                    | The AWS region in which your S3 bucket instance is located, e.g. ``us-east-1``.  You can omit this unless it is different than ``region``.
+accessKey<super>*</super>                   | The Access Key ID you obtained when creating your IAM role.
+secretKey<super>*</super>                  | The Secret Access Key you obtained when creating your IAM role.
+queueUrl                    | The name of the SQS queue to which your bucket sends new-object notices.
+fileFormat                  | ``text_gzip`` if each file is compressed using gzip, ``text`` if not compressed.
+objectKeyFilter             | Optional. If you specify a value, then S3 objects are ignored unless their name (object key) contains this substring. If you have multiple logs being published to the same S3 bucket, use this option to select the appropriate subset.
+hostname                    | The server name under which your bucket access logs will appear in the Overview page.
+logfile                     | The file name under which your bucket access log will appear in the Overview page.
+parser                      | Name of a parser to apply to these logs.
+logAttributes               | Optional. Specifies extra fields to attach to the messages imported from this log. 
+
+<super>*</super> Don't use credentials from your primary AWS account &mdash; always use an IAM role account with limited permissions. If
 you haven't already done so, follow the [Create IAM Role](#createIAMRole) instructions to create a special role
 account which only has access to the S3 bucket and SQS queue.
 
-5. Click {{menuRef:Update File}} to save your changes. Scalyr will begin checking for new data batches once per minute.
 
-6. Wait for the initial batch of log data to be retrieved. It may take minutes to hours for Amazon to publish the
-first batch.
-
-7. In the top navigation bar, click Overview. In the list of servers, you should see an entry named according to the
-``hostname`` you specified in the monitor configuration. To the right will be a link to your bucket access logs.
-
-
-troubleshooting: <Troubleshooting>
 ## Troubleshooting
 
 If your logs don't appear, make sure you've waited at least a few minutes since saving your changes to the Monitors
 configuration (i.e. since clicking Update File), and that new file(s) have been added to your S3 bucket subsequent to
-adding the Monitors configuration. Then return to the Scalyr Overview page and refresh your browser.
+adding the Monitors configuration. Then return to the Scalyr homepage and refresh your browser.
 
 If the logs still don't appear, you may have a configuration error which is preventing the Scalyr monitor from retrieving
 your logs. To check for error messages, in Scalyr's top navigation bar, click {{menuRef:Search}}. In the
@@ -104,56 +105,11 @@ to jump to the most recent log messages, and click on an individual message to s
 page includes an "errorMessage" field, then AWS returned an error when Scalyr attempted to retrieve your logs. Some common error
 messages:
 
-|||# Cause                       ||| errorMessage
-|||# Incorrect accessKey         ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
-                                     InvalidClientTokenId, AWS Error Message: The security token included in the request is invalid.
-|||# Incorrect secretKey         ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
-                                     SignatureDoesNotMatch, AWS Error Message: The request signature we calculated does not match \
-                                     the signature you provided. Check your AWS Secret Access Key and signing method. [etc.]
-|||# Incorrect IAM configuration ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
-                                     AccessDenied, AWS Error Message: Access to the resource https://sqs.us-east-1.amazonaws.com/nnnnnnnnnnnn/queue-name is denied.
-|||# Incorrect IAM configuration ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
-                                     AccessDenied, AWS Error Message: Access to the resource https://sqs.us-east-1.amazonaws.com/nnnnnnnnnnnn/queue-name is denied.
+Cause                       | errorMessage
+---|---
+Incorrect accessKey         | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: InvalidClientTokenId, AWS Error Message: The security token included in the request is invalid.
+Incorrect secretKey         | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: SignatureDoesNotMatch, AWS Error Message: The request signature we calculated does not match the signature you provided. Check your AWS Secret Access Key and signing method. [etc.]
+Incorrect IAM configuration | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: AccessDenied, AWS Error Message: Access to the resource https&colon;//sqs.us-east-1.amazonaws.com/nnnnnnnnnnnn/queue-name is denied.
+Incorrect IAM configuration | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: AccessDenied, AWS Error Message: Access to the resource https&colon;//sqs.us-east-1.amazonaws.com/nnnnnnnnnnnn/queue-name is denied.
 
 
-## Further Reading
-
-To learn how to work with your imported logs, see [Exploring Data](/help/view).
-
-
-createIAMRole: <Create IAM Role>
-## Appendix: Create IAM Role
-
-You can use Amazon IAM to create a role account which can only be used to read your S3 bucket access logs. This allows you
-to grant Scalyr the ability to import the logs, without opening up any other access to your AWS resources. Create
-the IAM role as follows:
-
-N. Make a note of your AWS account ID (a 12-digit number). You can find it near the top of the AWS
-   [My Account](https://portal.aws.amazon.com/gp/aws/manageYourAccount) page.
-N. Log into the Amazon AWS console. From the Services menu, choose "IAM".
-N. Go to the Users list.
-N. Click "Create New Users".
-N. Enter a user name, such as "s3-bucket-access-log-reader".
-N. Click "Create".
-N. Click "Show User Security Credentials", and make a note of the Access Key ID and Secret Access Key.
-N. Click "Close". Ignore the "You haven't downloaded the User security credentials" warning, and click "close" again.
-N. In the user list, click on the newly created user.
-N. In the "Permissions" section, click on the "Inline Policies" section, and then click the link to create an inline policy.
-N. Click the "Select" button to use the Policy Generator.
-N. Select the following values: ##
-   ``  ``Effect: Allow                                              ##
-   ``  ``AWS Service: Amazon S3                                     ##
-   ``  ``Actions: check GetObject                                   ##
-   ``  ``Amazon Resource Name: ``arn:aws:s3:::***bucket-name***/*`` ##
-  Replace ``bucket-name`` with the name of the S3 bucket you specified when setting up bucket access logging.
-N. Click "Add Statement".
-N. Update the form with the following values: ##
-   ``  ``Effect: Allow                                              ##
-   ``  ``AWS Service: Amazon SQS                                    ##
-   ``  ``Actions: check GetQueueAttributes, DeleteMessage, and ReceiveMessage            ##
-   ``  ``Amazon Resource Name: ``arn:aws:sqs:us-east-1:***account-id***:***queue-name***`` ##
-  Replace ``account-id`` with your 12-digit AWS account ID, without hyphens. Replace ``bucket-name`` with the name of
-  the SQS queue you subscribed to the S3 bucket.
-N. Click "Add Statement".
-N. Click "Next Step".
-N. Click "Apply Policy".

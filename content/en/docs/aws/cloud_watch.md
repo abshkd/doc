@@ -1,11 +1,12 @@
 ---
 title: "CloudWatch Metrics"
+notoc: true
 ---
 
 Scalyr can continuously import CloudWatch metrics for use in dashboards, alerts, and graphs.
 
 
-## Prerequisites
+## Before You Start
 
 1. AWS provides a feature called IAM (Identity and Access Management), which gives you fine-grained control
 over access to resources. You should create an IAM role account which can only be used to read your CloudWatch metrics.
@@ -79,20 +80,20 @@ the monitors section will look like this:
 
 Fill in the appropriate values for each field:
 
-|||# Field                       ||| Value
-|||# type                        ||| Always ``cloudwatch``
-|||# region                      ||| The AWS region in which your resources are located, e.g. ``us-east-1``
-|||# accessKey                   ||| The Access Key ID you obtained when creating your IAM role.
-|||# secretKey                   ||| The Secret Access Key you obtained when creating your IAM role.
-|||# executionIntervalMinutes    ||| How often to retrieve data from CloudWatch. Can range from 1 to 5. See [API Fees](#apiFees).
-|||# period                      ||| Time resolution of the retrieved data, in minutes. Can range from 1 to 5. You \
+Field                       | Value
+type                        | Always ``cloudwatch``
+region                      | The AWS region in which your resources are located, e.g. ``us-east-1``
+accessKey                   | The Access Key ID you obtained when creating your IAM role.
+secretKey                   | The Secret Access Key you obtained when creating your IAM role.
+executionIntervalMinutes    | How often to retrieve data from CloudWatch. Can range from 1 to 5. See [API Fees](#apiFees).
+period                      | Time resolution of the retrieved data, in minutes. Can range from 1 to 5. You \
                                      can usually omit this field; the default is 1 minute.
-|||# metrics                     ||| Lists each CloudWatch metric to import. For each metric, specify the namespace, \
+metrics                     | Lists each CloudWatch metric to import. For each metric, specify the namespace, \
                                      metric name, and dimensions under which the metric is listed in CloudWatch. You \
                                      can also specify which statistics to import -- any or all of "Average", "Sum", \
                                      "Minimum", "Maximum", or "SampleCount". Finally, you can specify a period here, \
                                      to customize the time resolution on a metric-by-metric basis.
-|||# logAttributes               ||| Optional: a set of fields and values to be added to each event recorded by this \
+logAttributes               | Optional: a set of fields and values to be added to each event recorded by this \
                                      monitor. For example, specify ``logAttributes: { tier: 'frontend' }`` to indicate \
                                      that this measurement is from a frontend server. You may use any field names you \
                                      like. (Note that #variable# substitution is not supported in these fields.)
@@ -161,13 +162,13 @@ box, type ``tag='cloudwatchMonitor'`` and click the {{menuRef:Search}} button. C
 and click on an individual message to see details for that message. If the details page includes an "errorMessage" field, then
 CloudWatch returned an error when Scalyr attempted to retrieve your metrics. Some common error messages:
 
-|||# Cause                       ||| errorMessage
-|||# Incorrect accessKey         ||| Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Cause                       | errorMessage
+Incorrect accessKey         | Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      InvalidClientTokenId, AWS Error Message: The security token included in the request is invalid.
-|||# Incorrect secretKey         ||| Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect secretKey         | Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      SignatureDoesNotMatch, AWS Error Message: The request signature we calculated does not match \
                                      the signature you provided. Check your AWS Secret Access Key and signing method. [etc.]
-|||# Incorrect IAM configuration ||| Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect IAM configuration | Status Code: 403, AWS Service: CloudWatch, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      AccessDenied, AWS Error Message: User: arn:aws:iam::nnnnnnnnnnnn:user/cloudwatch-reader is not \
                                      authorized to perform: [etc.] on resource: [etc.]
 

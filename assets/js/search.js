@@ -58,4 +58,4 @@
         // Set debug to `true` if you want to inspect the dropdown
         debug: false
     })
-})()
+})();

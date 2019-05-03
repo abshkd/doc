@@ -1,12 +1,15 @@
 ---
 title: "CloudTrail Logs"
+notoc: true
 ---
 
-Note that CloudTrail makes records available in batches, typically every 5 minutes. Thus, there is some
-delay before records can show up in Scalyr.
+{{% note %}}
+__Note__: CloudTrail makes records available in batches, so there can be a delay before
+records show up in Scalyr. Amazon's documentation specifies a maximum delay of 24 hours, but this is
+unusual in practice.
+{{% /note %}}
 
-
-## Prerequisites
+## Before You Start
 
 1. Set up CloudTrail for the Amazon account and region you wish to monitor. For instructions, see the section
 [Enable CloudTrail](#enableCloudtrail).
@@ -53,19 +56,19 @@ example monitors. The section might now look like this:
 
 Fill in the appropriate values for each field:
 
-|||# Field                       ||| Value
-|||# type                        ||| Always ``cloudtrail``
-|||# region                      ||| The AWS region in which your SQS queue is located, e.g. ``us-east-1``
-|||# s3Region                    ||| The AWS region in which your S3 bucket instance is located, e.g. ``us-east-1``. \
+Field                       | Value
+type                        | Always ``cloudtrail``
+region                      | The AWS region in which your SQS queue is located, e.g. ``us-east-1``
+s3Region                    | The AWS region in which your S3 bucket instance is located, e.g. ``us-east-1``. \
                                      You can omit this unless it is different than ``region``.
-|||# accessKey                   ||| The Access Key ID you obtained when creating your IAM role.
-|||# secretKey                   ||| The Secret Access Key you obtained when creating your IAM role.
-|||# queueUrl                    ||| The name of the SQS queue you created when setting up CloudTrail for Scalyr.
-|||# hostname                    ||| The server name under which your CloudTrail log will appear in the Overview page. \
+accessKey                   | The Access Key ID you obtained when creating your IAM role.
+secretKey                   | The Secret Access Key you obtained when creating your IAM role.
+queueUrl                    | The name of the SQS queue you created when setting up CloudTrail for Scalyr.
+hostname                    | The server name under which your CloudTrail log will appear in the Overview page. \
                                      Defaults to "CloudTrail".
-|||# logfile                     ||| The file name under which your CloudTrail log will appear in the Overview page. \
+logfile                     | The file name under which your CloudTrail log will appear in the Overview page. \
                                      Defaults to "CloudTrail".
-|||# logAttributes               ||| Specifies extra fields to attach to the messages imported from this log. Optional.
+logAttributes               | Specifies extra fields to attach to the messages imported from this log. Optional.
 
 If you don't have the Access Key ID and Secret Access Key for your IAM role account, you can generate a new key. From the AWS console,
 go to the IAM service and select the IAM account you're using for CloudTrail log import. Choose the "Security Credentials" tab, click
@@ -98,13 +101,13 @@ to jump to the most recent log messages, and click on an individual message to s
 page includes an "errorMessage" field, then AWS returned an error when Scalyr attempted to retrieve your logs. Some common error
 messages:
 
-|||# Cause                       ||| errorMessage
-|||# Incorrect accessKey         ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Cause                       | errorMessage
+Incorrect accessKey         | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      InvalidClientTokenId, AWS Error Message: The security token included in the request is invalid.
-|||# Incorrect secretKey         ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect secretKey         | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      SignatureDoesNotMatch, AWS Error Message: The request signature we calculated does not match \
                                      the signature you provided. Check your AWS Secret Access Key and signing method. [etc.]
-|||# Incorrect IAM configuration ||| Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
+Incorrect IAM configuration | Status Code: 403, AWS Service: AmazonSQS, AWS Request ID: xxx-xxx-xxx-xxx, AWS Error Code: \
                                      AccessDenied, AWS Error Message: Access to the resource https://sqs.us-east-1.amazonaws.com/nnnnnnnnnnnn/queue-name is denied.
 
 

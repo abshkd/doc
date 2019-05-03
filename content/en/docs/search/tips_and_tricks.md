@@ -1,23 +1,21 @@
 ---
 title: Tips + Tricks
+notoc: true
 ---
-
-# Scalyr Tips + Tricks
 
 ## Copy and search selection
 
 Dragging a selection of log text (or double clicking to select all) will let you right-click and copy the term. You can
-also narrow your search on the selected text by clicking filter for, exclude it from the current search  
-or start a new search with it included: 
+also narrow your search on the selected text by clicking filter for, exclude it from the current search or start a new search with it included: 
 
-[[[{type: "image", name: "eventTextSelection.png", maxWidth: 900}]]]
+{{< figure src="/img/eventTextSelection.png" width="900">}}
 
 ## Explore new terms without closing the current search
 
 When refining a search, it's sometimes useful to duplicate the browser tab to explore new terms without losing the current search. 
 In Google Chrome, right-click on the tab and select duplicate and continue refining in the new tab.  
   
-[[[{type: "image", name: "chromeDuplicateTab.png", maxWidth: 275}]]]
+{{< figure src="/img/chromeDuplicateTab.png" width="275">}}
 
 ## Use our [command-line utility](https://github.com/scalyr/scalyr-tool) to download search results
  
@@ -28,7 +26,6 @@ in the log tagged as source=accessLog and download them in csv format with the c
     scalyr query '$source="accessLog"' --output=csv --columns='status,uriPath' --count=1000
 
 
-defaultSearchTimeSpan: <Default Search Time Span>
 ## Set the Default Search Time Span
 
 By default all searches are performed for the past four hours. You can customize this by modifying the
@@ -43,7 +40,6 @@ searches.
         defaultSearchTimeSpan: "20 minutes"
     }
 
-defaultLogPageTimeout: <Set the Log Page Timeout Interval>
 ## Set the Log Page Timeout Interval
 
 By default, the table on the Logs page displays data from servers that have uploaded logs or other data to Scalyr within the last 24 hours. If no data is received from a server after that timeout interval it is removed from this list. A note at the upper right of the page provides information on any such removed servers and logs.
@@ -60,7 +56,6 @@ You can customize this timeout interval if you wish, by opening the
 
 
 
-originalLogTime: <Original Log or Thread Time>
 ## Set See In Original Log / Thread Time Window
 
 When you click on a log line in the search page, an options bar is displayed that allows you take actions such 
