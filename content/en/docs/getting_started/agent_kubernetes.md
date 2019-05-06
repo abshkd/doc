@@ -395,7 +395,6 @@ After you have configured the Agent and confirmed the configuration changes are 
 
 **Example**: Your ``scaly-config-agent-d`` ConfigMap should look like this:
 
-
     data:
       api-key.json: |+
         {

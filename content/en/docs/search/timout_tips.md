@@ -1,16 +1,16 @@
 ---
 title: Timeout Tips
+notoc: true
 ---
 
-# Is your Search or Graph Timing Out?
 
-We know how frustrating it is when you're trying to track something down, and Scalyr is timing out. Unfortunately, sometimes log data can get very large making it difficult to search through quickly.
+We know how frustrating it is when you're trying to track something down and Scalyr is timing out. Unfortunately, sometimes log data can get very large, making it difficult to search through quickly.
 
 ## Try searching a shorter time period
 
 For example, if you are trying to search over the last three days, try searching them one day at a time. To search the first day:
 
-[[[{type: "image", name: "nuiTimeDropdown3Day.png"}]]]
+{{< figure src="/img/nuiTimeDropdown3Day.png">}}
 
 To search the second day, change the Start field to "2d", and so on. Take a look at our [Date/Time Reference](/help/time-reference) for further information.
 

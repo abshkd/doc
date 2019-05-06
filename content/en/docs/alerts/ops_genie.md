@@ -1,12 +1,12 @@
 ---
-title: Alert Using OpsGenie
+title: "Alert Using OpsGenie"
+notoc: true
 ---
 
-# Alert Using OpsGenie
+This guide describes how to send Scalyr alert notifications through OpsGenie. 
 
-This guide describes how to send Scalyr alert notifications through OpsGenie. When a Scalyr alert is triggered,
-Scalyr will report an incident to OpsGenie. If the alert resolves, Scalyr will mark the OpsGenie incident as resolved.
-You can use OpsGenie for some or all of your Scalyr alerts. You can also choose to have Scalyr send notifications to
+When a Scalyr alert is triggered,
+Scalyr will report an incident to OpsGenie. If the alert resolves, Scalyr will mark the OpsGenie incident as resolved. You can use OpsGenie for some or all of your Scalyr alerts. You can also choose to have Scalyr send notifications to
 both OpsGenie and a list of e-mail addresses.
 
 
@@ -69,13 +69,3 @@ To link a whole group of alerts to OpsGenie, specify an appropriate ``alertAddre
 
 You can create any number of Scalyr integrations services in OpsGenie, each with its own settings. To link Scalyr
 to multiple integrations, simply enter the appropriate API Key in each ``alertAddress`` field.
-
-
-## Further Reading
-
-The [Alerts reference](/help/alerts) documents the format of the Scalyr alerts file.
-
-Scalyr sends notifications to OpsGenie at the same time it would send an e-mail notification. In particular,
-[Grace Periods](/help/alerts#gracePeriod) still apply. However, 
-[Repeated Notifications](/help/alerts#renotification) are not sent to OpsGenie, since 
-OpsGenie has its own system for managing unresolved alerts.

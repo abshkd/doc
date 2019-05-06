@@ -1,8 +1,7 @@
 ---
 title: Alert Using PagerDuty
+notoc: true
 ---
-
-# Alert Using PagerDuty
 
 This guide describes how to send Scalyr alert notifications through PagerDuty. When a Scalyr alert is triggered,
 Scalyr will report an incident to PagerDuty. If the alert resolves, Scalyr will mark the PagerDuty incident as resolved.
@@ -68,13 +67,3 @@ To link a whole group of alerts to PagerDuty, specify an appropriate ``alertAddr
 
 You can create any number of "Generic API" services in PagerDuty, each with its own escalation policy. To link Scalyr
 to multiple services, simply enter the appropriate Service API Key in each ``alertAddress`` field.
-
-
-## Further Reading
-
-The [Alerts reference](/help/alerts) documents the format of the Scalyr alerts file.
-
-Scalyr sends notifications to PagerDuty at the same time it would send an e-mail notification. In particular,
-[Grace Periods](/help/alerts#gracePeriod) still apply. However, 
-[Repeated Notifications](/help/alerts#renotification) are not sent to PagerDuty, 
-since PagerDuty has its own system for managing unresolved alerts.

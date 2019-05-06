@@ -1,8 +1,7 @@
 ---
 title: Alert Using Slack
+notoc: true
 ---
-
-# Alert Using Slack
 
 This guide describes how to send Scalyr alert notifications through Slack. When a Scalyr alert is triggered or
 resolves, Scalyr will send a message to a Slack channel. You can use Slack for some or all of your Scalyr alerts.
@@ -87,12 +86,3 @@ If you don't see messages appearing in Slack, you may have misconfigured the web
 For example, you may have an incorrect authorization token, in which case Slack will refuse to accept notifications
 from Scalyr. To check for Slack API errors, search your logs for
 [[[publicAppUrl(tag='webhookError',events?filter=tag%3D%27webhookError%27)]]].
-
-
-## Further Reading
-
-The [Alerts reference](/help/alerts) documents the format of the Scalyr alerts file.
-
-Scalyr sends notifications to Slack at the same time it would send an e-mail notification. In particular,
-[Grace Periods](/help/alerts#gracePeriod) and 
-[Repeated Notifications](/help/alerts#renotification) both apply.

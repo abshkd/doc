@@ -1,5 +1,6 @@
 ---
 title: "Alert Using VictorOps"
+notoc: true
 ---
 
 This guide describes how to send Scalyr alert notifications through VictorOps. When a Scalyr alert is triggered or

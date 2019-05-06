@@ -3,15 +3,12 @@ title: "Using Dashboards"
 weight: 41
 ---
 
-# Dashboards
-
 
 A *dashboard* is a page containing one or more graphs. Dashboards are used to group
 together and saving useful information for viewing at a glance. For instance, you might create a dashboard
 that shows high-level health information for all of your servers, and an additional dashboard
 per subsystem showing additional details.
 
-create: <Creating Dashboards>
 ## Creating Dashboards
 
 To create a dashboard, the easiest approach is to first use the Search page to display a graph that
@@ -22,7 +19,6 @@ You can add additional graphs to your dashboard using the same button. Just clic
 
 To view a dashboard, use the {{menuRef:Dashboards}} dropdown in the navigation bar.
 
-addgraph: <Adding a Graph>
 ## Adding Graphs
 
 There are several ways to add a graph to a dashboard. The easiest way is from the Search page, 
@@ -37,14 +33,14 @@ N. *For standard graphs only:* Click the Plot button to add a plot to the new gr
 N. *For breakdown graphs only:* Specify the field by which you want the graph to break down.
 N. When you are finished, click the Add This Graph button. 
 
-[[[{type: "image", name: "newDashAddGraph.png", maxWidth: 650}]]]
+{{< figure src="/img/newDashAddGraph.png" width="650">}}
 
  
 ### Basic Function Plots
 
 A plot created using a basic function will transform data by applying a selected function to the selected variable.  You can use the filter input to then further narrow the data being plotted.
 
-[[[{type: "image", name: "newDashAddPlot.png", maxWidth: 700}]]]
+{{< figure src="/img/newDashAddPlot.png" width="700">}}
 
 - Label: The graph title.
 - Field: The name of the event field to be graphed. See the [Graph View - Field List](/help/graphs#fieldList) reference for details.
@@ -64,7 +60,6 @@ use of a Scalyr function to apply a data transformation to a custom filter. For 
 For details on the Scalyr query language in general, click [here](/help/query-language).
 
 
-editing: <Editing Dashboards>
 ## Editing Dashboards
 
 Dashboards are simply containers for one or more graphs, PowerQueries, or reports, and you don't edit them per se. There are only a few things you do with dashboards in the UI: create and delete them, add and remove graphs, PowerQueries, or reports to them, and rename them.
@@ -96,7 +91,6 @@ The Plot Editor lets you define the following properties:
 
 Note that this editor is not available for Breakdown graphs.
 
-editingjson: <Editing Dashboard JSON>
 ## Editing Dashboards in JSON
 
 A dashboard is specified by a simple configuration file in an augmented JSON format. This topic
@@ -110,7 +104,6 @@ To delete a dashboard, click the {{menuRef:Settings}} dropdown in the navigation
 dashboard name, and click {{menuRef:Delete}}.
 
 
-builtin: <Built-in Dashboards>
 ## Built-in Dashboards
 
 Scalyr comes with a few built-in dashboards:
@@ -155,7 +148,6 @@ process you're interested in. Click the link for setup instructions.
 [LevelDB dashboard](/leveldbdashboard[[[emitSoleParamTeamTokenIfPhoenix]]]) -- displays metrics taken from a LevelDB log file. Click
 the link for setup instructions.
 
-syntax: <Dashboard Syntax>
 ## Dashboard Syntax
 
 Here is an example of a dashboard configuration file:
@@ -232,7 +224,6 @@ your graph in the [graph view](/help/view[[[emitSoleParamTeamTokenIfPhoenix]]]#g
 button and choose {{menuRef:In Dashboard}}.  This generates JSON code which you can simply paste into the dashboard editor.
 
 
-areaGraphs: <Area Graphs>
 ## Area Graphs
 
 Dashboard graphs normally use line plots, but when displaying multiple values, a stacked area
@@ -240,7 +231,6 @@ graph is sometimes easier to look at. To create an area graph, add graphStyle: "
 to the graph's JSON specification. The built-in [system dashboard](/dash?page=system) 
 contains some examples of area graphs.
 
-barGraphs: <Bar Graphs>
 ## Bar Graphs
 
 Use a bar graph to display your graph data broken up into specific time intervals. To change an existing graph into a bar 
@@ -249,7 +239,6 @@ JSON by adding graphStyle: "stacked_bar" to the graph's JSON specification.  To 
 can create a graph via the [Add Graph](/help/new-dashboards#addgraph) dialog on the dashboard page. 
 
 
-viewing: <Viewing Dashboards>
 ## Viewing Dashboards
 
 The Dashboards menu in the navigation bar provides access to all of your dashboards. 
@@ -265,7 +254,6 @@ the graph, e.g. by altering the search expression. If you want to update the das
 your changes, you must go to the dashboard editor and paste in the new search expression.
 
 
-parameters: <Dashboard Parameters>
 ## Dashboard Parameters
 
 Sometimes you may want to use the same dashboard to view different sets of data. For instance,
@@ -329,7 +317,6 @@ queries. You can do this by turning each option into a dictionary with "label" a
         }
       ],
 
-datatables: <Data Tables>
 #### Defining parameters using data tables
 
 You can place a list of parameter values in a separate file, called a "data table". This allows you to use the same
@@ -458,7 +445,6 @@ across servers:
     }
 
 
-powerQuery: <PowerQueries>
 ## PowerQueries
 
 You can include the output of a [PowerQuery](/help/power-queries) in a dashboard. To do this:
@@ -483,7 +469,6 @@ You can use the ``+`` operator to split the query across multiple lines. For exa
     }
 
 
-reports: <Reports>
 ## Reports
 
 In addition to graphs, a dashboard page can also include reports. Reports allow you to summarize
@@ -588,7 +573,6 @@ Currently, reports always summarize the last hour's worth of logs. If you would 
 us know.
 
 
-expressions: <Complex Expressions>
 ## Complex Expressions
 
 You can perform arithmetic computations in a report, using the +, -, * , and / operators. Uses include
@@ -603,7 +587,6 @@ or a combination of the two. All report functions are supported: count, latest, 
 sumPerSecond, and slopePerSecond. 
 
 
-breakdowns: <Report Breakdowns>
 ## Breakdowns
 
 The ``breakdown`` function generates multiple columns, one for each unique value in the attribute. For instance,
@@ -640,7 +623,6 @@ The following options can be included with a breakdown column:
 Note: reports using the breakdown operator are currently limited to 24 hours of data, and 1000 output rows.
 
 
-links: <Report Links>
 ## Links
 
 You can click on any cell in a table (except for columns defined using "expression", or static columns, unless they
@@ -719,7 +701,6 @@ This example will take the value of the "status" field (which must be one of the
 in the data table, and display the value.
 
 
-wallView: <Wall View>
 ## Wall View
 
 If you want to keep a dashboard open permanently, perhaps in a wall-mounted display, click

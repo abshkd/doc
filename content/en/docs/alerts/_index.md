@@ -1,5 +1,5 @@
 ---
-title: "Creating Alerts"
+title: "Setting Up Alerts"
 weight: 23
 ---
 
@@ -18,48 +18,31 @@ Whenever a rule's conditions apply, Scalyr sends an Alarm Triggered message to t
 You generally create new rules from the Search page, then view and manage them on the Alerts page. However, some advanced features are available only by editing the Alerts configuration file directly. This topic is addressed later, under [Editing the Alerts Config File](#alertsConfig).
 
 
-definingRules: <Defining Rules>
 ## Defining Alert Rules
 To define a new rule, go to the Search page, set up a search that includes filter conditions in the query expression field, and click Save > Save as Alert. This opens the Add Rule editor as shown below.
 
-[[[{type: "image", name: "newAddAlert.png", maxWidth: 750}]]]
+{{< figure src="/img/newAddAlert.png" width="750">}}
 
 The editor displays the following property fields, which define the rule:
 
 |  Property            |   Description                                                  |   Default
-|  Description         |   Description of the condition \
-                               that triggers this alert. Shown \
-                               in all three tabs on the Alerts page, \
-                               and included in alert notification messages. \
-                               Serves as the rule's name.                                   |   The actual query expression
-|  Trigger             |   Specifies the interval and condition that trigger \
-                               the alert. \
-                               Refer to [Trigger Expressions](/help/alerts#triggers) below \
-                               for more details.                                            |   Any instance
-|  email              |   Specifies one or more email addresses to notify. \
-                               Multiple \
-                               addresses must be separated by commas or semicolons.         |   The address of the current user or account.
-|  Grace Period        |   Specifies the duration a trigger event must last \
-                               before an alert is generated.  Details are provided \
-                               [below](#gracePeriod).                                       |   1 minute
-|  Reminder Period     |   Specifies the interval, in minutes, at which Scalyr \
-                               will send repeat alerts about the same continuing event. \
-                               Details are provided [below](#reminders).                    |   60 minutes
-|  Resolution Delay    |   Specifies how long an alert condition must no longer \
-                               be true for the alert to be considered resolved. Details \
-                               are provided [below](#resolution).                           |   5 minutes
+---|---|---
+|  Description         |   Description of the condition                                that triggers this alert. Shown                                in all three tabs on the Alerts page,                                and included in alert notification messages.                                Serves as the rule's name.                                   |   The actual query expression
+|  Trigger             |   Specifies the interval and condition that trigger                                the alert.                                Refer to [Trigger Expressions](/help/alerts#triggers) below                                for more details.                                            |   Any instance
+|  Email              |   Specifies one or more email addresses to notify.                                Multiple                                addresses must be separated by commas or semicolons.         |   The address of the current user or account.
+|  Grace Period        |   Specifies the duration a trigger event must last                                before an alert is generated.  Details are provided                                [below](#gracePeriod).                                       |   1 minute
+|  Reminder Period     |   Specifies the interval, in minutes, at which Scalyr                                will send repeat alerts about the same continuing event.                                Details are provided [below](#reminders).                    |   60 minutes
+|  Resolution Delay    |   Specifies how long an alert condition must no longer                                be true for the alert to be considered resolved. Details                                are provided [below](#resolution).                           |   5 minutes
    
 When you have set the properties for a rule, click the Save button and it will be added to the list on the Alerts page. New rules take effect immediately.
 
 
-gracePeriod: <Grace Period>
 ### Grace Period
 
 Sometimes you may not want to be notified of an alert unless it has triggered for several minutes in a row. For instance, it may be normal for a server to experience a brief spike of high latency, but you want to be notified if the high latency persists for more than a few minutes. In this case, you might set the rule's grace period to 3 minutes, requiring the high latency to persist for 3 minutes before an alert is generated.
 
 Advanced users, note that this value can be edited in the config file as the ``gracePeriodMinutes:`` property.
 
-reminders: <Reminder Period>
 ### Reminder Period
 
 If a rule remains triggered for a long time, Scalyr will send repeat alerts as a reminder that the trigger condition is still in effect. By default, a new message is sent once per hour, but you can control this by specifying a value for the reminder period. For example, to repeat an alert once every two hours, set the reminder period to 120 minutes.
@@ -73,7 +56,6 @@ Note that this setting applies only to alert states that remain continuously tri
 Also, when you specify [PagerDuty](#pagerduty), [OpsGenie](#opsgenie), or [VictorOps](#victorops) as your alert delivery channel, Scalyr does not send repeated notifications, because those products have their own systems for managing unresolved alerts (details below).
 
 
-resolution: <Resolution Delay>
 ### Resolution Delay
 
 When an alert resolves, Scalyr waits a few minutes before notifying you, in order to avoid a flood of alternating Triggered and Resolved messages if the condition is moving in and out of alert state. By default, the resolution delay is 5 minutes.
@@ -87,7 +69,6 @@ Once a rule has been defined and saved, it appears in the list of all alerts on 
 ## Defining Rules Directly
 To define a new rule from the Alerts page, click the ADD ALERT button. A rule editor similar to the one described above will open. Edit the new rule, including specifying the actual terms of the trigger expression, and then save it; guidelines are provided below. In general, it's easier to create an alert from the Search page, since the trigger expression has already been defined.
    
-triggers: <Trigger Expressions>
 ### Trigger Expression Syntax
 
 The Trigger property for every rule defines the event or condition that will trigger an alert. It is expressed in the same [query language](/help/query-language)
@@ -146,15 +127,13 @@ Alert if available disk space falls by more than 1GB in an hour (ex. if in the l
 You can use the following special functions in defining trigger expressions:
 
 |  Function                    |   Result
+---|---
 |  ``hourOfDay()``             |   The current hour of the day (0 - 23), in GMT.
-|  ``hourOfDay(timeZone)``     |   The current hour of the day (0 - 23), in the specified time zone. For instance, \
-                                       "PST".
+|  ``hourOfDay(timeZone)``     |   The current hour of the day (0 - 23), in the specified time zone. For instance,                                        "PST".
 |  ``dayOfWeek()``             |   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), in GMT.
-|  ``dayOfWeek(timeZone)``     |   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday), \
-                                       in the specified time zone. For instance, "PST".
+|  ``dayOfWeek(timeZone)``     |   The current day of the week (0 for Sunday, 1 for Monday, 6 for Saturday),                                        in the specified time zone. For instance, "PST".
 |  ``dayOfMonth()``            |   The current date of the month (1 for the first day of the month), in GMT.
-|  ``dayOfMonth(timeZone)``    |   The current date of the month (1 for the first day of the month), in the \
-                                       specified time zone. For instance, "PST".
+|  ``dayOfMonth(timeZone)``    |   The current date of the month (1 for the first day of the month), in the                                        specified time zone. For instance, "PST".
 
 The ``hourOfDay()``, ``dayOfWeek()``, and ``dayOfMonth()`` functions can be used to write rules that only trigger during
 certain times of the day, week, or month. For example, the following rule will trigger if the message "success" occurs
@@ -166,12 +145,11 @@ fewer than 5 times per second during business hours:
 
 
 
-viewingRules: <Viewing Rules and Alerts>
 ## Viewing Rules and Alerts
 
 You view and work with rules and alerts on the Alerts page, as shown below.
 
-[[[{type: "image", name: "newAlertsPage.png", maxWidth: 750}]]]
+{{< figure src="/img/newAlertsPage.png" width="750">}}
 
 The three tabs represent different sets of the currently defined rules, with some overlap. The All tab shows the whole set, regardless of alert status. The Triggered tab shows the rules that have been triggered within the last minute and any rules that have been triggered within the last hour. The Muted tab shows rules that are in the muted state (see below).
 
@@ -182,7 +160,6 @@ A red bar indicates that a trigger condition was in effect for some or all of th
 A green bar represents a minute when the rule was not generating an alert.
 
 
-workingWithRules: <Working with Rules and Alerts>
 ## Working with Rules
 
 Once rules are defined, there are only a few things you do with them.
@@ -197,8 +174,7 @@ To un-mute a muted rule, click the Un-mute icon on that row, or select it using 
 
 To view all the properties defining a rule, click on it in any of the three tabs to open the Details page:
 
-
-[[[{type: "image", name: "newAlertDetails.png", maxWidth: 750}]]]
+{{< figure src="/img/newAlertDetails.png" width="750">}}
  
 
 The Details page provides the following features:
@@ -226,7 +202,6 @@ To delete one or more rules, select them using the checkboxes and then click the
 
 
 
-alertsConfig: <Editing the Alerts Config File>
 ## Editing the Alerts Config File
 Rules created through the UI are saved in the [/scalyr/alerts](/file?path=%2Fscalyr%2Falerts[[[emitAddlParamTeamTokenIfPhoenix]]]) 
 configuration file. You generally don't need to edit this file directly, but there are a few advanced features, such as alert groups and templates, that can only be used by editing the config file manually. 
@@ -268,7 +243,6 @@ The general form of an alert specification is:
 
 ``description`` can contain any text (including links) and serves as the name of the rule. The "silence" parameters define mute conditions. Mutes, trigger expressions, grace periods, reminder periods, and resolution delays are discussed above.
 
-alertTemplates: <Alert Templates>
 ## Alert Templates
 
 If you are running multiple servers, you will probably want to create alerts for each server. To make it easy to define your alerts once and apply them to multiple servers, use Alert Templates. This advanced feature requires manually editing the config file to include a ``templateParameters`` section, containing a list of all hosts where you want to add a specified rule or rules.
@@ -396,7 +370,6 @@ file. Templated alerts can be managed like any other alerts on the Alerts page. 
 
 
 
-messages: <Alert Messages>
 ## Alert Messages
 
 When an alert triggers (the alert condition becomes true), an email message is sent to the address specified
@@ -417,7 +390,6 @@ email address. For instance:
     alertAddress: "unbatched:frontend-team@example.com"
 
 
-silencing: <Muting Alerts>
 ### Muting Alerts
 
 Muting adds a silencing condition for an alert in the [/scalyr/alerts](/file?path=%2Fscalyr%2Falerts[[[emitAddlParamTeamTokenIfPhoenix]]]) file. Alert fields
@@ -436,7 +408,6 @@ The silenceComment field is optional. Use it to record a reminder of why you sil
 
 
 
-recipients: <Alert Recipients>
 ## Specifying Alert Recipients
 
 Anywhere you specify an email address for alerts, you can specify multiple addresses separated by commas or semicolons. All of the addresses will receive the alert.
@@ -489,7 +460,6 @@ login address for your account. You can also divide alerts up into separate grou
     }
 
 
-pagerduty: <PagerDuty Integration>
 ## PagerDuty Integration
 
 You can use PagerDuty to deliver Scalyr alert notices. Simply create a "Generic API" service in PagerDuty. In your Scalyr
@@ -502,7 +472,6 @@ XXXXX is the "Service API Key" for your Generic API service.
 For detailed instructions on setting up PagerDuty integration, see [Alert Using PagerDuty](/solutions/pagerduty).
 
 
-opsgenie: <OpsGenie Integration>
 ## OpsGenie Integration
 
 You can use OpsGenie to deliver Scalyr alert notices. Create a Scalyr integration at
@@ -514,7 +483,6 @@ XXXXX is the API key generated on the OpsGenie integrations page.
 
 For detailed instructions on setting up OpsGenie integration, see [Alert Using OpsGenie](/solutions/opsgenie).
 
-victorops: <VictorOps Integration>
 ## VictorOps Integration
 
 You can use VictorOps to deliver Scalyr alert notices. In your Scalyr alert configuration, enter an ``alertAddress`` of
@@ -526,7 +494,6 @@ The URL is obtained by logging into
 
 ``VictorOps > Settings > Alert Behavior > Integrations > REST``. See [Alert Using VictorOps](/solutions/victorops) for details.
 
-slack: <Slack Integration>
 ## Slack Integration
 
 You can use Slack to deliver Scalyr alert notices. In your Scalyr alert configuration, enter an ``alertAddress`` of
@@ -537,7 +504,6 @@ the following form:
 INTEGRATION_PATH is obtained in the Slack integration settings. See [Alert Using Slack](/solutions/slack) for details.
 
 
-webhook: <Webhook Integration>
 ## Webhook Integration
 
 You can deliver Scalyr alert notices to any third-party service that accepts notifications via a GET, PUT, or POST
@@ -581,7 +547,6 @@ tokens are supported:
 Any other use of # is left alone. In particular, if your webhook contains a sequence like ``#foo#``, it will be left unchanged.
 
 
-logging: <Alert Logging>
 ## Alert Logging
 
 Scalyr generates three kinds of log records which you can use to review your alert history:
@@ -591,26 +556,30 @@ Scalyr generates three kinds of log records which you can use to review your ale
 record has the following fields:
 
 |  Field            |   Value
+---|---
 |  ``tag``          |   ``alertState``
 |  ``state``        |   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
 |  ``trigger``      |   The alert's trigger condition
 |  ``description``  |   The alert's description
 
+<br/>
 An **alert notification** record ([sample query](/events?filter=tag%3D%27alertNotification%27[[[emitAddlParamTeamTokenIfPhoenix]]])) is generated whenever Scalyr
 sends an "alert triggered" or "alert resolved" message:
 
 |  Field                  |   Value 
+---|---
 |  ``tag``                |   ``alertNotification`` 
-|  ``newState``           |   2 if the alert condition is met (i.e. the alert is triggered), \
-                                  1 otherwise  
+|  ``newState``           |   2 if the alert condition is met (i.e. the alert is triggered),                                   1 otherwise  
 |  ``trigger``            |   The alert's trigger condition
 |  ``description``        |   The alert's description 
 |  ``isRenotification``   |   True for a repeated notification of an alert that has been triggered for a long time, false otherwise 
 
+<br/>
 A **state change** record ([sample query](/events?filter=tag%3D%27alertStateChange%27[[[emitAddlParamTeamTokenIfPhoenix]]])) is generated when an alert's state
 changes between "triggered" and "not triggered":
 
 |  Field             |   Value
+---|---
 |  ``tag``           |   ``alertStateChange``
 |  ``newState``      |   2 if the alert condition is met (i.e. the alert is triggered), 1 otherwise
 |  ``trigger``       |   The alert's trigger condition

@@ -2,8 +2,6 @@
 title: PowerQueries
 ---
 
-# PowerQueries
-
 PowerQueries provide a rich set of commands for transforming and manipulating data. You can filter, perform
 computations, extract new fields from your logs on the fly, and create groupings and statistical summaries. You
 can freely mix and match commands, to create sophisticated analyses and find the answers you need.
@@ -11,8 +9,6 @@ can freely mix and match commands, to create sophisticated analyses and find the
 To use PowerQueries, click on the Search menu and choose "PowerQueries", or simply navigate to [/query](/query). You
 can also use PowerQueries in dashboards ([see below](#dashboards)).
 
-
-## Cheat Sheet
 
 Query syntax:
 
@@ -68,7 +64,6 @@ Comments:
     let x=y // two slashes indicate a comment, extending until the end of the line
 
 
-examples: <Examples>
 ## Examples
 
 Before we dive into the command syntax, here are a few examples that show the kinds of tasks you can accomplish with
@@ -87,6 +82,7 @@ The ``columns`` command allows you to display your logs as a table, showing a se
     | columns timestamp, status, uri
 
 | timestamp               | status  | uriPath
+---|---|---
 | Jun 19  8:12:29.000 PM  |    200  | /home
 | Jun 19  8:12:30.000 PM  |    200  | /about
 | Jun 19  8:12:33.000 PM  |    404  | /hom
@@ -108,6 +104,7 @@ count.
     | limit 5
 
 | uriPath            | total | clientErrors | serverErrors
+---|---|---|---
 | /home              |  8319 | 2            | 6
 | /news              |  6214 | 108          | 39
 | /blog              |  1125 | 31           | 0
@@ -130,6 +127,7 @@ This message contains two fields -- the data size, and the elapsed time. Ideall
     | parse "image conversion processed $size$KB in $time$ seconds"
 
 | size | time
+---|---
 |  638 | 0.326
 | 1509 | 1.304
 |  225 | 0.038
@@ -141,6 +139,7 @@ Using ``let``, you can then compute statistics such as the KB-per-second process
     | let kbPerSec = size / time
 
 | size | time   | kbPerSec
+---|---|---
 |  638 | 0.326  | 1957.055
 | 1509 | 1.304  | 1157.209
 |  225 | 0.038  | 5921.053
@@ -165,6 +164,7 @@ Finally, let's compute some aggregate statistics, including the median and slowe
     | group conversions=count(), totalSize=sum(size), medianPerf=median(kbPerSec), slowestPerf=min(kbPerSec) by 1
 
 | 1 | conversions |  totalSize | medianPerf | slowestPerf
+---|---|---|---|---
 | 1 |      53,193 | 42,163,408 |   1340.616 |     138.772
 
 Grouping ``by 1`` is a trick to put all records in a single group.
@@ -179,6 +179,7 @@ distinct IP addresses in your access logs:
     | group estimate_distinct(ip) by 1
 
 | 1 | estimate_distinct(ip)
+---|---
 | 1 | 209570
 
 
@@ -204,8 +205,6 @@ customer name. The ``lookup`` command enables this:
     | lookup name from "customers" by id=customerId
 
 
-
-using: <Using PowerQueries>
 ## Using PowerQueries
 
 All queries begin with a standard Scalyr filter expression, specifying the data to be analyzed. To set up a query,
@@ -227,6 +226,7 @@ corner of the edit box) or typing Command-Enter. You'll see a table containing t
 The following commands are supported:
 
 | Command               | Description
+---|---
 | [filter](#filter)     | Selects events or records to process
 | [let](#let)           | Performs computations
 | [parse](#parse)       | Extracts fields from log data
@@ -237,7 +237,6 @@ The following commands are supported:
 | [columns](#columns)   | Specifies which columns to display, and/or renames columns
 
 
-expressions: <Expression Syntax>
 ## Expression Syntax
 
 Most commands contain one or more "expressions", which specify values and computations. The following are supported:
@@ -270,7 +269,6 @@ commands. For instance, ``let kbPerSec = size / time`` creates a new field ``kbP
 If a query uses a field which is not present in an event, the missing field will be given the value ``null``.
 
 
-filter: <Filter Command>
 ## Filter Command
 
     filter filter-expression
@@ -293,7 +291,6 @@ following features of Scalyr's standard filter language are supported:
 - The && operator is optional. To search for A and B, you can simply say ``A B``.
 
 
-let: <Let Command>
 ## Let Command
 
     let field=expression, field2=expression2, ...
@@ -307,7 +304,6 @@ This command defines one or more new fields. You can't overwrite a field which w
 ``parse`` or ``lookup`` command, or records created by a ``group`` command.
 
 
-parse: <Parse Command>
 ## Parse Command
 
     parse "format"
@@ -340,7 +336,6 @@ different name instead.
   exploring field values using Scalyr's graphical tools.
 
 
-lookup: <Lookup Command>
 ## Lookup Command
 
     lookup field=columnName, field2=columnName2, ... from "tableName" by columnName3=expression3, columnName4=expression4, ...
@@ -387,7 +382,6 @@ following forms are supported:
 - ``fieldName="columnName"``: same as preceeding; use quotes when the column name contains punctuation.
 
 
-group: <Group Command>
 ## Group Command
 
     group function(expression), function2(expression2), ... by expression3, expression4, ...
@@ -404,6 +398,7 @@ The result is a new table, with one row for each unique combination of the group
 function (e.g. ``median(latency)``) or grouping field (e.g. ``region``). The following functions are supported:
 
 | Function            | Description
+---|---
 | count()             | Counts the number of records in the group.
 | count(expression)   | Counts the number of records for which the expression is true / nonzero / nonempty.
 | sum(expression)     | The sum of all inputs, ignoring null, NaN, or non-numeric inputs. If there are no eligible inputs, the result is 0.
@@ -427,7 +422,6 @@ If there is no ``sort`` command after the last ``group`` command in a query, the
 the grouping field(s), in ascending order.
 
 
-sort: <Sort Command>
 ## Sort Command
 
     sort expression, expression2, ...
@@ -442,7 +436,6 @@ first takes precedence, and the remaining column(s) are used to break ties. ``+`
 specifies descending order. The default is ascending order.
 
 
-limit: <Limit Command>
 ## Limit Command
 
     limit
@@ -456,7 +449,6 @@ This command imposes a cap on the number of records displayed, or the number of 
 If ``limit`` is used without specifying a number, 10 records are displayed.
 
 
-columns: <Columns Command>
 ## Columns Command
 
     columns field, field2, ...
@@ -475,7 +467,6 @@ final name of a column, for display purposes. This should normally only be used 
 such names are not easily referenced in subsequent commands.
 
 
-functions: <Function Reference>
 ## Function Reference
 
 The following functions are supported in expressions (including filter expressions).
@@ -483,6 +474,7 @@ The following functions are supported in expressions (including filter expressio
 Numeric functions:
 
 | Function     | Description
+---|---
 | abs(x)       | The absolute value of x
 | ceiling(x)   | x, rounded up to an integer
 | floor(x)     | x, rounded down to an integer
@@ -498,6 +490,7 @@ Numeric functions:
 String functions:
 
 | Function         | Description
+---|---
 | len(x)           | The number of characters in x
 | lower(x)         | x, with all letters changed to lowercase
 | upper(x)         | x, with all letters changed to uppercase
@@ -519,7 +512,6 @@ and z is a simple string. Matching is not case sensitive. y cannot be empty. NOT
 | isblank(x)       | True if x is null, an empty string, or contains only whitespace.
 
 
-dashboards: <Dashboards>
 ## PowerQueries in Dashboards
 
 You can include the output of a query in a dashboard. To do this:
@@ -544,7 +536,6 @@ You can use the ``+`` operator to split the query across multiple lines. For exa
     }
 
 
-advanced: <Advanced>
 ## Advanced Notes
 
 Performance tips:
@@ -574,7 +565,6 @@ interact with types as follows:
   other non-booleans are treated as true.
 
 
-memoryLimit:
 ## Memory Limits
 If your query matches a large number of records, you may see a message like this:
 
