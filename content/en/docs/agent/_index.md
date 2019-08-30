@@ -14,7 +14,6 @@ For standard installation instructions, go to the [Agent Installation](/docs/get
 page.
  
 
-configuration: <Configuration>
 ## Configuration 
 
 To configure the Linux agent, edit the following file:
@@ -28,7 +27,6 @@ For Windows, edit this file:
 The agent will notice the new configuration within 30 seconds. There is no need to restart the agent.
 
 
-hostname: <Customize Host Name>
 ## Customize Host Name
 
 By default, Scalyr will identify your server by its hostname. If your hostname is something unhelpful
@@ -45,7 +43,6 @@ under the new name. Older data will still be listed under the old hostname; the 
 Overview page after 24 hours or so.
 
 
-logUpload: <Uploading Log Files>
 ## Uploading Log Files 
 
 To upload log files, edit the "logs" section of ``[agent.json](#configuration)``. This section lists
@@ -106,7 +103,6 @@ to monitor a log file at ``C:\WebServer\logs\access.log``:
        }
      ]
 
-compressing: <Compressing Logs>
 ## Compressing Logs
 
 To reduce network traffic, potentially saving costs if you're charged for oubtound traffic, you can compress logs that the agent is sending to Scalyr.
